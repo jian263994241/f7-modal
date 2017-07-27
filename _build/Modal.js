@@ -9,6 +9,10 @@ var _extends2 = require('babel-runtime/helpers/extends');
 
 var _extends3 = _interopRequireDefault(_extends2);
 
+var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
+
+var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+
 var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
 
 var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
@@ -43,9 +47,9 @@ var _propTypes = require('prop-types');
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _classnames = require('classnames');
+var _classnames2 = require('classnames');
 
-var _classnames2 = _interopRequireDefault(_classnames);
+var _classnames3 = _interopRequireDefault(_classnames2);
 
 var _dom = require('dom7');
 
@@ -58,6 +62,10 @@ var _rcMounter2 = _interopRequireDefault(_rcMounter);
 var _OverLay = require('./OverLay');
 
 var _OverLay2 = _interopRequireDefault(_OverLay);
+
+var _styles = require('./styles');
+
+var _styles2 = _interopRequireDefault(_styles);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -86,17 +94,17 @@ var Modal = (_temp2 = _class = function (_Component) {
       var modal = (0, _dom2.default)(_this.refs.modal);
       if (visible) {
         // console.log('Modal Opened');
-        modal.removeClass('modal-out').show();
+        modal.removeClass(_styles2.default['modal-out']).show();
         setTimeout(function () {
           (0, _dom2.default)(window).trigger('resize');
-          modal.addClass('modal-in');
+          modal.addClass(_styles2.default['modal-in']);
           if (fixTop) {
             _this.fixTop();
           }
         }, 16);
       } else {
         // console.log('Modal Closed');
-        modal.removeClass('modal-in').addClass('modal-out');
+        modal.removeClass(_styles2.default['modal-in']).addClass(_styles2.default['modal-out']);
         if (!initial) {
           modal.transitionEnd(function (e) {
             modal.hide();
@@ -128,6 +136,8 @@ var Modal = (_temp2 = _class = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
+      var _classnames;
+
       var _props = this.props,
           className = _props.className,
           containerCss = _props.containerCss,
@@ -140,23 +150,14 @@ var Modal = (_temp2 = _class = function (_Component) {
           type = _props.type,
           fixTop = _props.fixTop,
           children = _props.children,
-          other = (0, _objectWithoutProperties3.default)(_props, ['className', 'containerCss', 'visible', 'onCancel', 'afterClose', 'closeByOutside', 'mounter', 'root', 'type', 'fixTop', 'children']);
+          rest = (0, _objectWithoutProperties3.default)(_props, ['className', 'containerCss', 'visible', 'onCancel', 'afterClose', 'closeByOutside', 'mounter', 'root', 'type', 'fixTop', 'children']);
 
 
-      var cls = (0, _classnames2.default)({
-        'modal': type === 'modal' || type === 'toast' || type === 'preloader',
-        'popup': type === 'popup',
-        'actions-modal': type === 'actions',
-        'picker-modal': type === 'picker',
-        'popover': type === 'popover',
-        'modal-no-buttons': type === 'toast',
-        'preloader-modal': type === 'preloader',
-        'toast': type === 'toast'
-      }, className);
+      var cls = (0, _classnames3.default)((_classnames = {}, (0, _defineProperty3.default)(_classnames, _styles2.default['modal'], type === 'modal' || type === 'toast' || type === 'preloader'), (0, _defineProperty3.default)(_classnames, _styles2.default['popup'], type === 'popup'), (0, _defineProperty3.default)(_classnames, _styles2.default['actions-modal'], type === 'actions'), (0, _defineProperty3.default)(_classnames, _styles2.default['picker-modal'], type === 'picker'), (0, _defineProperty3.default)(_classnames, _styles2.default['popover'], type === 'popover'), (0, _defineProperty3.default)(_classnames, _styles2.default['modal-no-buttons'], type === 'toast'), (0, _defineProperty3.default)(_classnames, _styles2.default['preloader-modal'], type === 'preloader'), (0, _defineProperty3.default)(_classnames, _styles2.default['toast'], type === 'toast'), _classnames), className);
 
       var innerElement = [_react2.default.createElement(_OverLay2.default, { visible: visible, type: type, onClick: closeByOutside && onCancel, key: 'overlay' }), _react2.default.createElement(
         'div',
-        (0, _extends3.default)({ className: cls }, other, { ref: 'modal', key: 'modal' }),
+        (0, _extends3.default)({ className: cls }, rest, { ref: 'modal', key: 'modal' }),
         children
       )];
 

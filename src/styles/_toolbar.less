@@ -1,0 +1,47 @@
+//Toolbar/Navbar
+@toolbarBg : #ffffff;
+@toolbarBgBlured: rgba(248,248,249, 0.85);
+@toolbarBorderColor: #c4c4c4;
+@toolbarLinksColor: @themeColor;
+@toolbarSize: 44px;
+
+//Tab bar
+@tabbarLabelsSize: 50px;
+@tabbarLinksColor: #929292;
+@tabbarActiveLinksColor: @themeColor;
+@tabbarLabelsSizeTablet: 56px;
+
+.toolbar {
+    position: relative;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 44px;
+    background: #f7f7f8;
+    margin: 0;
+    z-index: 500;
+    .hairline(top, @toolbarBorderColor);
+    &.no-border {
+        .hairline-remove(top);
+    }
+    a {
+        .flex-shrink(1);
+        position: relative;
+        white-space: nowrap;
+        text-overflow:ellipsis;
+        overflow: hidden;
+    }
+}
+
+.toolbar-inner {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0 8px;
+    box-sizing: border-box;
+    .flexbox();
+    .justify-content(space-between);
+    .align-items(center);
+}

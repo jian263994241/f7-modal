@@ -4,6 +4,7 @@ import classnames from 'classnames'
 import $ from 'dom7'
 import Mounter from 'rc-mounter'
 import OverLay from './OverLay'
+import styles from './styles'
 
 export default class Modal extends Component {
 
@@ -36,17 +37,17 @@ export default class Modal extends Component {
     const modal = $(this.refs.modal);
     if(visible){
       // console.log('Modal Opened');
-      modal.removeClass('modal-out').show();
+      modal.removeClass(styles['modal-out']).show();
       setTimeout(()=>{
         $(window).trigger('resize');
-        modal.addClass('modal-in');
+        modal.addClass(styles['modal-in']);
         if(fixTop){
           this.fixTop();
         }
       }, 16);
     }else{
       // console.log('Modal Closed');
-      modal.removeClass('modal-in').addClass('modal-out');
+      modal.removeClass(styles['modal-in']).addClass(styles['modal-out']);
       if(!initial){
         modal.transitionEnd((e)=>{
           modal.hide();
@@ -90,23 +91,23 @@ export default class Modal extends Component {
       type,
       fixTop,
       children,
-      ...other
+      ...rest
     } = this.props;
 
     const cls = classnames({
-      'modal': (type === 'modal' || type === 'toast' || type === 'preloader'),
-      'popup': type === 'popup',
-      'actions-modal': type === 'actions',
-      'picker-modal': type === 'picker',
-      'popover': type === 'popover',
-      'modal-no-buttons': type==='toast',
-      'preloader-modal': type === 'preloader',
-      'toast': type === 'toast'
+      [styles['modal']]: (type === 'modal' || type === 'toast' || type === 'preloader'),
+      [styles['popup']]: type === 'popup',
+      [styles['actions-modal']]: type === 'actions',
+      [styles['picker-modal']]: type === 'picker',
+      [styles['popover']]: type === 'popover',
+      [styles['modal-no-buttons']]: type==='toast',
+      [styles['preloader-modal']]: type === 'preloader',
+      [styles['toast']]: type === 'toast'
     }, className);
 
     const innerElement = [
       <OverLay visible={visible} type={type} onClick={closeByOutside && onCancel} key="overlay"></OverLay>,
-      <div className={cls} {...other} ref="modal" key="modal">{children}</div>
+      <div className={cls} {...rest} ref="modal" key="modal">{children}</div>
     ]
 
     if(mounter){

@@ -9,6 +9,10 @@ var _extends2 = require('babel-runtime/helpers/extends');
 
 var _extends3 = _interopRequireDefault(_extends2);
 
+var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
+
+var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+
 var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
 
 var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
@@ -43,13 +47,17 @@ var _propTypes = require('prop-types');
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _classnames = require('classnames');
+var _classnames2 = require('classnames');
 
-var _classnames2 = _interopRequireDefault(_classnames);
+var _classnames3 = _interopRequireDefault(_classnames2);
 
 var _dom = require('dom7');
 
 var _dom2 = _interopRequireDefault(_dom);
+
+var _styles = require('./styles');
+
+var _styles2 = _interopRequireDefault(_styles);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -73,10 +81,10 @@ var OverLay = (_temp2 = _class = function (_Component) {
       var overLay = (0, _dom2.default)(_this.refs.overLay);
       if (visible) {
         setTimeout(function () {
-          overLay.addClass('modal-overlay-visible');
+          overLay.addClass(_styles2.default['modal-overlay-visible']);
         }, 16);
       } else {
-        overLay.removeClass('modal-overlay-visible');
+        overLay.removeClass(_styles2.default['modal-overlay-visible']);
       }
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
@@ -94,26 +102,23 @@ var OverLay = (_temp2 = _class = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
+      var _classnames;
+
       var _props = this.props,
           visible = _props.visible,
           type = _props.type,
           onTouchMove = _props.onTouchMove,
           className = _props.className,
-          other = (0, _objectWithoutProperties3.default)(_props, ['visible', 'type', 'onTouchMove', 'className']);
+          rest = (0, _objectWithoutProperties3.default)(_props, ['visible', 'type', 'onTouchMove', 'className']);
 
 
       var preventScrolling = function preventScrolling(e) {
         e.preventDefault();
       };
 
-      var cls = (0, _classnames2.default)({
-        'modal-overlay': type != 'popup',
-        'popup-overlay': type === 'popup',
-        'transparent': type === 'toast' || type === 'preloader',
-        'picker-modal-overlay': type === 'picker'
-      });
+      var cls = (0, _classnames3.default)((_classnames = {}, (0, _defineProperty3.default)(_classnames, _styles2.default['modal-overlay'], type != 'popup'), (0, _defineProperty3.default)(_classnames, _styles2.default['popup-overlay'], type === 'popup'), (0, _defineProperty3.default)(_classnames, _styles2.default['transparent'], type === 'toast' || type === 'preloader'), (0, _defineProperty3.default)(_classnames, _styles2.default['picker-modal-overlay'], type === 'picker'), _classnames));
 
-      return _react2.default.createElement('div', (0, _extends3.default)({ className: cls, ref: 'overLay', onTouchMove: preventScrolling }, other));
+      return _react2.default.createElement('div', (0, _extends3.default)({ className: cls, ref: 'overLay', onTouchMove: preventScrolling }, rest));
     }
   }]);
   return OverLay;

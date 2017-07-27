@@ -8,5 +8,5 @@ fis.match('**.js',{
 
 fis.match('styles/index.less',{
   parser: fis.plugin('css'),
-  rExt: '.css'
+  rExt: '.js'
 });

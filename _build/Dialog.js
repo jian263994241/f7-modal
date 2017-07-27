@@ -34,6 +34,10 @@ var _Modal = require('./Modal');
 
 var _Modal2 = _interopRequireDefault(_Modal);
 
+var _styles = require('./styles');
+
+var _styles2 = _interopRequireDefault(_styles);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var modalLock = false;
@@ -82,24 +86,24 @@ function alert(parmas) {
     },
     _react2.default.createElement(
       'div',
-      { className: 'modal-inner' },
+      { className: _styles2.default['modal-inner'] },
       _react2.default.createElement(
         'div',
-        { className: 'modal-title' },
+        { className: _styles2.default['modal-title'] },
         title
       ),
       _react2.default.createElement(
         'div',
-        { className: 'modal-text' },
+        { className: _styles2.default['modal-text'] },
         text
       )
     ),
     _react2.default.createElement(
       'div',
-      { className: 'modal-buttons modal-buttons-1' },
+      { className: _styles2.default['modal-buttons'] },
       _react2.default.createElement(
         'span',
-        { className: 'modal-button modal-button-bold', onClick: clickOk },
+        { className: _styles2.default['modal-button'] + ' ' + _styles2.default['modal-button-bold'], onClick: clickOk },
         okText
       )
     )
@@ -146,29 +150,29 @@ function confirm(parmas) {
     },
     _react2.default.createElement(
       'div',
-      { className: 'modal-inner' },
+      { className: _styles2.default['modal-inner'] },
       _react2.default.createElement(
         'div',
-        { className: 'modal-title' },
+        { className: _styles2.default['modal-title'] },
         title
       ),
       _react2.default.createElement(
         'div',
-        { className: 'modal-text' },
+        { className: _styles2.default['modal-text'] },
         text
       )
     ),
     _react2.default.createElement(
       'div',
-      { className: 'modal-buttons modal-buttons-2' },
+      { className: _styles2.default['modal-buttons'] },
       _react2.default.createElement(
         'span',
-        { className: 'modal-button', onClick: clickCancel },
+        { className: '' + _styles2.default['modal-button'], onClick: clickCancel },
         cancelText
       ),
       _react2.default.createElement(
         'span',
-        { className: 'modal-button modal-button-bold', onClick: clickOk },
+        { className: _styles2.default['modal-button'] + ' ' + _styles2.default['modal-button-bold'], onClick: clickOk },
         okText
       )
     )
@@ -222,34 +226,34 @@ function prompt(parmas) {
     },
     _react2.default.createElement(
       'div',
-      { className: 'modal-inner' },
+      { className: _styles2.default['modal-inner'] },
       _react2.default.createElement(
         'div',
-        { className: 'modal-title' },
+        { className: _styles2.default['modal-title'] },
         title
       ),
       _react2.default.createElement(
         'div',
-        { className: 'modal-text' },
+        { className: _styles2.default['modal-text'] },
         text
       ),
       _react2.default.createElement(
         'div',
-        { className: 'input-field' },
-        _react2.default.createElement('input', { type: 'text', className: 'modal-text-input', onChange: inputField })
+        { className: _styles2.default['input-field'] },
+        _react2.default.createElement('input', { type: 'text', className: _styles2.default['modal-text-input'], onChange: inputField })
       )
     ),
     _react2.default.createElement(
       'div',
-      { className: 'modal-buttons modal-buttons-2' },
+      { className: _styles2.default['modal-buttons'] },
       _react2.default.createElement(
         'span',
-        { className: 'modal-button', onClick: clickCancel },
+        { className: _styles2.default['modal-button'], onClick: clickCancel },
         cancelText
       ),
       _react2.default.createElement(
         'span',
-        { className: 'modal-button modal-button-bold', onClick: clickOk },
+        { className: _styles2.default['modal-button'] + ' ' + _styles2.default['modal-button-bold'], onClick: clickOk },
         okText
       )
     )
@@ -290,10 +294,10 @@ function toast(text, timer, callbackOk) {
     },
     _react2.default.createElement(
       'div',
-      { className: 'modal-inner' },
+      { className: _styles2.default['modal-inner'] },
       _react2.default.createElement(
         'div',
-        { className: 'modal-text' },
+        { className: _styles2.default['modal-text'] },
         text
       )
     )

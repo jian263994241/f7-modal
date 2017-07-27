@@ -5,6 +5,7 @@ import classnames from 'classnames'
 import $ from 'dom7'
 import Mounter from 'rc-mounter'
 import Modal from './Modal'
+import styles from './styles'
 
 let modalLock = false;
 
@@ -45,12 +46,12 @@ export function alert (parmas) {
       fixTop
       mounter
       >
-      <div className="modal-inner">
-        <div className="modal-title">{title}</div>
-        <div className="modal-text">{text}</div>
+      <div className={styles['modal-inner']}>
+        <div className={styles['modal-title']}>{title}</div>
+        <div className={styles['modal-text']}>{text}</div>
       </div>
-      <div className="modal-buttons modal-buttons-1">
-        <span className="modal-button modal-button-bold" onClick={clickOk}>{okText}</span>
+      <div className={styles['modal-buttons']}>
+        <span className={`${styles['modal-button']} ${styles['modal-button-bold']}`} onClick={clickOk}>{okText}</span>
       </div>
     </Modal>
   );
@@ -88,13 +89,13 @@ export function confirm (parmas) {
       fixTop
       mounter
       >
-      <div className="modal-inner">
-        <div className="modal-title">{title}</div>
-        <div className="modal-text">{text}</div>
+      <div className={styles['modal-inner']}>
+        <div className={styles['modal-title']}>{title}</div>
+        <div className={styles['modal-text']}>{text}</div>
       </div>
-      <div className="modal-buttons modal-buttons-2">
-        <span className="modal-button" onClick={clickCancel}>{cancelText}</span>
-        <span className="modal-button modal-button-bold" onClick={clickOk}>{okText}</span>
+      <div className={styles['modal-buttons']}>
+        <span className={`${styles['modal-button']}`} onClick={clickCancel}>{cancelText}</span>
+        <span className={`${styles['modal-button']} ${styles['modal-button-bold']}`} onClick={clickOk}>{okText}</span>
       </div>
     </Modal>
   );
@@ -137,16 +138,16 @@ export function prompt(parmas) {
       fixTop
       mounter
       >
-      <div className="modal-inner">
-        <div className="modal-title">{title}</div>
-        <div className="modal-text">{text}</div>
-        <div className="input-field">
-          <input type="text" className="modal-text-input" onChange={inputField}/>
+      <div className={styles['modal-inner']}>
+        <div className={styles['modal-title']}>{title}</div>
+        <div className={styles['modal-text']}>{text}</div>
+        <div className={styles['input-field']}>
+          <input type="text" className={styles['modal-text-input']} onChange={inputField}/>
         </div>
       </div>
-      <div className="modal-buttons modal-buttons-2">
-        <span className="modal-button" onClick={clickCancel}>{cancelText}</span>
-        <span className="modal-button modal-button-bold" onClick={clickOk}>{okText}</span>
+      <div className={styles['modal-buttons']}>
+        <span className={styles['modal-button']} onClick={clickCancel}>{cancelText}</span>
+        <span className={`${styles['modal-button']} ${styles['modal-button-bold']}`} onClick={clickOk}>{okText}</span>
       </div>
     </Modal>
   );
@@ -185,8 +186,8 @@ export function toast (text, timer, callbackOk){
       fixTop
       mounter
       >
-      <div className="modal-inner">
-        <div className="modal-text">{text}</div>
+      <div className={styles['modal-inner']}>
+        <div className={styles['modal-text']}>{text}</div>
       </div>
     </Modal>
   );
