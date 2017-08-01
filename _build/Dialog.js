@@ -3,6 +3,41 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
+
+var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+
+var _extends2 = require('babel-runtime/helpers/extends');
+
+var _extends3 = _interopRequireDefault(_extends2);
+
+var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
+
+var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+
+var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = require('babel-runtime/helpers/inherits');
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _class, _temp2;
+
 exports.alert = alert;
 exports.confirm = confirm;
 exports.prompt = prompt;
@@ -18,9 +53,9 @@ var _propTypes = require('prop-types');
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _classnames = require('classnames');
+var _classnames2 = require('classnames');
 
-var _classnames2 = _interopRequireDefault(_classnames);
+var _classnames3 = _interopRequireDefault(_classnames2);
 
 var _dom = require('dom7');
 
@@ -39,6 +74,92 @@ var _styles = require('./styles');
 var _styles2 = _interopRequireDefault(_styles);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Modal2 = (_temp2 = _class = function (_Component) {
+  (0, _inherits3.default)(Modal2, _Component);
+
+  function Modal2() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    (0, _classCallCheck3.default)(this, Modal2);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Modal2.__proto__ || (0, _getPrototypeOf2.default)(Modal2)).call.apply(_ref, [this].concat(args))), _this), _this.afterClose = function () {
+      var mounter = _this.refs.modal.getMounter();
+      mounter.destroy();
+      modalStackClearQueue();
+    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
+  }
+
+  (0, _createClass3.default)(Modal2, [{
+    key: 'render',
+    value: function render() {
+      var _props = this.props,
+          title = _props.title,
+          text = _props.text,
+          textAfter = _props.textAfter,
+          children = _props.children,
+          rest = (0, _objectWithoutProperties3.default)(_props, ['title', 'text', 'textAfter', 'children']);
+
+
+      return _react2.default.createElement(
+        _Modal2.default,
+        (0, _extends3.default)({
+          ref: 'modal',
+          visible: true,
+          closeByOutside: false,
+          fixTop: true,
+          mounter: true,
+          afterClose: this.afterClose
+        }, rest),
+        _react2.default.createElement(
+          'div',
+          { className: _styles2.default['modal-inner'] },
+          _react2.default.createElement(
+            'div',
+            { className: _styles2.default['modal-title'] },
+            title
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: _styles2.default['modal-text'] },
+            text
+          ),
+          textAfter
+        ),
+        children
+      );
+    }
+  }]);
+  return Modal2;
+}(_react.Component), _class.ButtonGroup = function (_ref2) {
+  var children = _ref2.children,
+      rest = (0, _objectWithoutProperties3.default)(_ref2, ['children']);
+  return _react2.default.createElement(
+    'div',
+    (0, _extends3.default)({ className: _styles2.default['modal-buttons'] }, rest),
+    children
+  );
+}, _class.Button = function (_ref3) {
+  var _classnames;
+
+  var children = _ref3.children,
+      bold = _ref3.bold,
+      rest = (0, _objectWithoutProperties3.default)(_ref3, ['children', 'bold']);
+
+  var btnCss = (0, _classnames3.default)((_classnames = {}, (0, _defineProperty3.default)(_classnames, _styles2.default['modal-button'], true), (0, _defineProperty3.default)(_classnames, _styles2.default['modal-button-bold'], bold), _classnames));
+  return _react2.default.createElement(
+    'span',
+    (0, _extends3.default)({ className: btnCss }, rest),
+    children
+  );
+}, _temp2);
+
 
 var modalLock = false;
 
@@ -76,43 +197,18 @@ function alert(parmas) {
   modalLock = true;
 
   var mounted = _rcMounter2.default.mount(_react2.default.createElement(
-    _Modal2.default,
-    {
-      visible: true,
-      closeByOutside: false,
-      afterClose: afterClose,
-      fixTop: true,
-      mounter: true
-    },
+    Modal2,
+    { title: title, text: text },
     _react2.default.createElement(
-      'div',
-      { className: _styles2.default['modal-inner'] },
+      Modal2.ButtonGroup,
+      null,
       _react2.default.createElement(
-        'div',
-        { className: _styles2.default['modal-title'] },
-        title
-      ),
-      _react2.default.createElement(
-        'div',
-        { className: _styles2.default['modal-text'] },
-        text
-      )
-    ),
-    _react2.default.createElement(
-      'div',
-      { className: _styles2.default['modal-buttons'] },
-      _react2.default.createElement(
-        'span',
-        { className: _styles2.default['modal-button'] + ' ' + _styles2.default['modal-button-bold'], onClick: clickOk },
+        Modal2.Button,
+        { onClick: clickOk },
         okText
       )
     )
   ));
-
-  function afterClose() {
-    mounted.getComponent().getMounter().destroy();
-    modalStackClearQueue();
-  }
 };
 
 function confirm(parmas) {
@@ -140,52 +236,27 @@ function confirm(parmas) {
   modalLock = true;
 
   var mounted = _rcMounter2.default.mount(_react2.default.createElement(
-    _Modal2.default,
-    {
-      visible: true,
-      closeByOutside: false,
-      afterClose: afterClose,
-      fixTop: true,
-      mounter: true
-    },
+    Modal2,
+    { title: title, text: text },
     _react2.default.createElement(
-      'div',
-      { className: _styles2.default['modal-inner'] },
+      Modal2.ButtonGroup,
+      null,
       _react2.default.createElement(
-        'div',
-        { className: _styles2.default['modal-title'] },
-        title
-      ),
-      _react2.default.createElement(
-        'div',
-        { className: _styles2.default['modal-text'] },
-        text
-      )
-    ),
-    _react2.default.createElement(
-      'div',
-      { className: _styles2.default['modal-buttons'] },
-      _react2.default.createElement(
-        'span',
-        { className: '' + _styles2.default['modal-button'], onClick: clickCancel },
+        Modal2.Button,
+        (0, _defineProperty3.default)({ onClick: clickOk }, 'onClick', clickCancel),
         cancelText
       ),
       _react2.default.createElement(
-        'span',
-        { className: _styles2.default['modal-button'] + ' ' + _styles2.default['modal-button-bold'], onClick: clickOk },
+        Modal2.Button,
+        { onClick: clickOk, bold: true },
         okText
       )
     )
   ));
-
-  function afterClose() {
-    mounted.getComponent().getMounter().destroy();
-    modalStackClearQueue();
-  }
 };
 
 function prompt(parmas) {
-  var _this = this;
+  var _this2 = this;
 
   if (addQueue(prompt.bind(this, arguments))) return true;
 
@@ -206,7 +277,7 @@ function prompt(parmas) {
   };
 
   var clickOk = function clickOk() {
-    mounted.updateProps({ visible: false }, onOk.bind(_this, value));
+    mounted.updateProps({ visible: false }, onOk.bind(_this2, value));
   };
 
   var clickCancel = function clickCancel() {
@@ -215,60 +286,42 @@ function prompt(parmas) {
 
   modalLock = true;
 
+  var input = _react2.default.createElement(
+    'div',
+    { className: _styles2.default['input-field'] },
+    _react2.default.createElement('input', { type: 'text', className: _styles2.default['modal-text-input'], onChange: inputField })
+  );
+
   var mounted = _rcMounter2.default.mount(_react2.default.createElement(
-    _Modal2.default,
-    {
-      visible: true,
-      closeByOutside: false,
-      afterClose: afterClose,
-      fixTop: true,
-      mounter: true
-    },
+    Modal2,
+    { title: title, text: text, textAfter: input },
     _react2.default.createElement(
-      'div',
-      { className: _styles2.default['modal-inner'] },
+      Modal2.ButtonGroup,
+      null,
       _react2.default.createElement(
-        'div',
-        { className: _styles2.default['modal-title'] },
-        title
-      ),
-      _react2.default.createElement(
-        'div',
-        { className: _styles2.default['modal-text'] },
-        text
-      ),
-      _react2.default.createElement(
-        'div',
-        { className: _styles2.default['input-field'] },
-        _react2.default.createElement('input', { type: 'text', className: _styles2.default['modal-text-input'], onChange: inputField })
-      )
-    ),
-    _react2.default.createElement(
-      'div',
-      { className: _styles2.default['modal-buttons'] },
-      _react2.default.createElement(
-        'span',
-        { className: _styles2.default['modal-button'], onClick: clickCancel },
+        Modal2.Button,
+        (0, _defineProperty3.default)({ onClick: clickOk }, 'onClick', clickCancel),
         cancelText
       ),
       _react2.default.createElement(
-        'span',
-        { className: _styles2.default['modal-button'] + ' ' + _styles2.default['modal-button-bold'], onClick: clickOk },
+        Modal2.Button,
+        { onClick: clickOk, bold: true },
         okText
       )
     )
   ));
-
-  function afterClose() {
-    mounted.getComponent().getMounter().destroy();
-    modalStackClearQueue();
-  }
 }
 
 function toast(text, timer, callbackOk) {
   if (typeof timer === 'function' || typeof timer === 'undefined') {
     callbackOk = arguments[1];
     timer = 1500;
+  }
+  var title = null;
+
+  if (Array.isArray(text)) {
+    title = text[1];
+    text = text[0];
   }
 
   if (addQueue(toast.bind(this, arguments))) return true;
@@ -281,30 +334,97 @@ function toast(text, timer, callbackOk) {
 
   modalLock = true;
 
-  var mounted = _rcMounter2.default.mount(_react2.default.createElement(
-    _Modal2.default,
-    {
-      type: 'toast',
-      visible: true,
-      closeByOutside: true,
-      onCancel: onCancel,
-      afterClose: afterClose,
-      fixTop: true,
-      mounter: true
-    },
+  var mounted = _rcMounter2.default.mount(_react2.default.createElement(Modal2, {
+    type: 'toast',
+    closeByOutside: true,
+    onCancel: onCancel,
+    text: text,
+    title: title
+  }));
+}
+
+toast.sucess = function (text, timer, callbackOk) {
+  var title = _react2.default.createElement(
+    'svg',
+    { width: '32', height: '32', viewBox: '0 0 16 16', xmlns: 'http://www.w3.org/2000/svg' },
     _react2.default.createElement(
-      'div',
-      { className: _styles2.default['modal-inner'] },
+      'title',
+      null,
+      '\u6210\u529F\u63D0\u793A'
+    ),
+    _react2.default.createElement(
+      'g',
+      { stroke: '#FFF', strokeWidth: '.5', fill: 'none', fillRule: 'evenodd' },
+      _react2.default.createElement('circle', { cx: '8', cy: '8', r: '7.75' }),
+      _react2.default.createElement('path', { strokeLinecap: 'round', strokeLinejoin: 'round', d: 'M4.047 8.25l2.565 2.65 4.95-4.99' })
+    )
+  );
+  toast([text, title], timer, callbackOk);
+};
+
+toast.fail = function (text, timer, callbackOk) {
+  var title = _react2.default.createElement(
+    'svg',
+    { width: '32', height: '32', viewBox: '0 0 16 16', xmlns: 'http://www.w3.org/2000/svg' },
+    _react2.default.createElement(
+      'title',
+      null,
+      '\u5931\u8D25\u63D0\u793A'
+    ),
+    _react2.default.createElement(
+      'g',
+      { strokeWidth: '.5', stroke: '#FFF', fill: 'none', fillRule: 'evenodd' },
+      _react2.default.createElement('circle', { cx: '8', cy: '8', r: '7.75' }),
       _react2.default.createElement(
-        'div',
-        { className: _styles2.default['modal-text'] },
-        text
+        'g',
+        { strokeLinecap: 'round', strokeLinejoin: 'round' },
+        _react2.default.createElement('path', { d: 'M4.962 4.93l6.293 6.292M4.932 11.18l6.293-6.294' })
       )
     )
-  ));
+  );
+  toast([text, title], timer, callbackOk);
+};
 
-  function afterClose() {
-    mounted.getComponent().getMounter().destroy();
-    modalStackClearQueue();
-  }
-}
+toast.offline = function (text, timer, callbackOk) {
+  var title = _react2.default.createElement(
+    'svg',
+    { width: '32', height: '32', viewBox: '0 0 16 16', xmlns: 'http://www.w3.org/2000/svg' },
+    _react2.default.createElement(
+      'title',
+      null,
+      '\u7F51\u7EDC\u63D0\u793A'
+    ),
+    _react2.default.createElement(
+      'g',
+      { fill: 'none', fillRule: 'evenodd' },
+      _react2.default.createElement('circle', { cx: '8', cy: '8', r: '7.75', strokeWidth: '.5', stroke: '#FFF' }),
+      _react2.default.createElement(
+        'g',
+        { fill: '#FFF', transform: 'translate(4.444 5.778)' },
+        _react2.default.createElement('circle', { cx: '.444', cy: '.444', r: '1' }),
+        _react2.default.createElement('circle', { cx: '7.111', cy: '.444', r: '1' })
+      ),
+      _react2.default.createElement('path', { d: 'M11.177 11.557c-.457-1.295-1.693-2.223-3.144-2.223-1.452 0-2.687.928-3.145 2.223', stroke: '#FFF', strokeWidth: '.5', strokeLinecap: 'round', strokeLinejoin: 'round' })
+    )
+  );
+  toast([text, title], timer, callbackOk);
+};
+
+toast.warning = function (text, timer, callbackOk) {
+  var title = _react2.default.createElement(
+    'svg',
+    { width: '32', height: '32', viewBox: '0 0 16 16', xmlns: 'http://www.w3.org/2000/svg' },
+    _react2.default.createElement(
+      'title',
+      null,
+      '\u8B66\u793A\u63D0\u793A'
+    ),
+    _react2.default.createElement(
+      'g',
+      { fill: 'none', fillRule: 'evenodd' },
+      _react2.default.createElement('circle', { cx: '8', cy: '8', r: '7.75', strokeWidth: '.5', stroke: '#FFF' }),
+      _react2.default.createElement('path', { d: 'M7.573 4.444l.197 5.12c.004.12.102.214.222.214h.016c.12 0 .218-.095.222-.214l.197-5.12c.01-.236-.175-.435-.41-.444H8c-.236 0-.428.19-.428.428v.016zm.424 6.223c-.12 0-.224.037-.308.124-.092.082-.134.187-.134.318 0 .124.042.23.133.317.083.087.186.13.307.13.12 0 .23-.043.32-.124.085-.086.127-.19.127-.322 0-.13-.042-.236-.127-.317-.084-.086-.193-.123-.32-.123z', fill: '#FFF' })
+    )
+  );
+  toast([text, title], timer, callbackOk);
+};
