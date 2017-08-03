@@ -26,6 +26,7 @@ popup 实现
 | root | dom | mounter 选择挂载的节点 |
 | onCancel | func | 关闭回调 |
 | afterClose | func | 关闭后回调 |
+| overlay | bool | 是否显示遮罩层 |
 
 ## &lt;PickerModal/&gt;
 
