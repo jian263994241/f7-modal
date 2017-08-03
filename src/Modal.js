@@ -14,7 +14,8 @@ export default class Modal extends Component {
     visible: false,
     fixTop: true,
     type: 'modal',
-    closeByOutside: true
+    closeByOutside: true,
+    overlay: true
   }
 
   static propTypes = {
@@ -25,7 +26,8 @@ export default class Modal extends Component {
     className: PropTypes.string,
     containerCss: PropTypes.string,
     fixTop: PropTypes.bool,
-    mounter: PropTypes.bool
+    mounter: PropTypes.bool,
+    overlay: PropTypes.bool
   }
 
   getModal = ()=>{
@@ -90,6 +92,7 @@ export default class Modal extends Component {
       root,
       type,
       fixTop,
+      overlay,
       children,
       ...rest
     } = this.props;
@@ -106,9 +109,14 @@ export default class Modal extends Component {
     }, className);
 
     const innerElement = [
-      <OverLay visible={visible} type={type} onClick={closeByOutside && onCancel} key="overlay"></OverLay>,
       <div className={cls} {...rest} ref="modal" key="modal">{children}</div>
-    ]
+    ];
+
+    if(overlay){
+      innerElement.push(
+          <OverLay visible={visible} type={type} onClick={closeByOutside && onCancel} key="overlay"></OverLay>
+      )
+    }
 
     if(mounter){
       return (

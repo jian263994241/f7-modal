@@ -1,6 +1,6 @@
 {
   "name": "f7-modal",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "f7 modal",
   "main": "_build/index.js",
   "scripts": {
