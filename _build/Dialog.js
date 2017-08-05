@@ -313,6 +313,9 @@ function prompt(parmas) {
 }
 
 function toast(text, timer, callbackOk) {
+
+  if (addQueue(toast.bind(this, text, timer, callbackOk))) return true;
+
   if (typeof timer === 'function' || typeof timer === 'undefined') {
     callbackOk = arguments[1];
     timer = 1500;
@@ -323,8 +326,6 @@ function toast(text, timer, callbackOk) {
     title = text[1];
     text = text[0];
   }
-
-  if (addQueue(toast.bind(this, arguments))) return true;
 
   var onCancel = function onCancel() {
     mounted.updateProps({ visible: false }, callbackOk);
@@ -348,11 +349,6 @@ toast.sucess = function (text, timer, callbackOk) {
     'svg',
     { width: '32', height: '32', viewBox: '0 0 16 16', xmlns: 'http://www.w3.org/2000/svg' },
     _react2.default.createElement(
-      'title',
-      null,
-      '\u6210\u529F\u63D0\u793A'
-    ),
-    _react2.default.createElement(
       'g',
       { stroke: '#FFF', strokeWidth: '.5', fill: 'none', fillRule: 'evenodd' },
       _react2.default.createElement('circle', { cx: '8', cy: '8', r: '7.75' }),
@@ -366,11 +362,6 @@ toast.fail = function (text, timer, callbackOk) {
   var title = _react2.default.createElement(
     'svg',
     { width: '32', height: '32', viewBox: '0 0 16 16', xmlns: 'http://www.w3.org/2000/svg' },
-    _react2.default.createElement(
-      'title',
-      null,
-      '\u5931\u8D25\u63D0\u793A'
-    ),
     _react2.default.createElement(
       'g',
       { strokeWidth: '.5', stroke: '#FFF', fill: 'none', fillRule: 'evenodd' },
@@ -389,11 +380,6 @@ toast.offline = function (text, timer, callbackOk) {
   var title = _react2.default.createElement(
     'svg',
     { width: '32', height: '32', viewBox: '0 0 16 16', xmlns: 'http://www.w3.org/2000/svg' },
-    _react2.default.createElement(
-      'title',
-      null,
-      '\u7F51\u7EDC\u63D0\u793A'
-    ),
     _react2.default.createElement(
       'g',
       { fill: 'none', fillRule: 'evenodd' },
@@ -414,11 +400,6 @@ toast.warning = function (text, timer, callbackOk) {
   var title = _react2.default.createElement(
     'svg',
     { width: '32', height: '32', viewBox: '0 0 16 16', xmlns: 'http://www.w3.org/2000/svg' },
-    _react2.default.createElement(
-      'title',
-      null,
-      '\u8B66\u793A\u63D0\u793A'
-    ),
     _react2.default.createElement(
       'g',
       { fill: 'none', fillRule: 'evenodd' },

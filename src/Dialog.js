@@ -173,6 +173,9 @@ export function prompt(parmas) {
 
 
 export function toast (text, timer, callbackOk){
+
+  if( addQueue( toast.bind(this, text, timer, callbackOk) ) ) return true;
+
   if (typeof timer === 'function' || typeof timer === 'undefined') {
     callbackOk = arguments[1];
     timer = 1500;
@@ -183,8 +186,6 @@ export function toast (text, timer, callbackOk){
     title = text[1];
     text = text[0];
   }
-
-  if( addQueue( toast.bind(this, arguments) ) ) return true;
 
   const onCancel = ()=>{
     mounted.updateProps({visible: false}, callbackOk);
@@ -208,7 +209,6 @@ export function toast (text, timer, callbackOk){
 toast.sucess = function (text, timer, callbackOk){
   const title = (
     <svg width="32" height="32" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-      <title>成功提示</title>
       <g stroke="#FFF" strokeWidth=".5" fill="none" fillRule="evenodd">
         <circle cx="8" cy="8" r="7.75"/><path strokeLinecap="round" strokeLinejoin="round" d="M4.047 8.25l2.565 2.65 4.95-4.99"/>
       </g>
@@ -220,7 +220,6 @@ toast.sucess = function (text, timer, callbackOk){
 toast.fail = function(text, timer, callbackOk){
   const title = (
     <svg width="32" height="32" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-      <title>失败提示</title>
       <g strokeWidth=".5" stroke="#FFF" fill="none" fillRule="evenodd">
         <circle cx="8" cy="8" r="7.75"/>
         <g strokeLinecap="round" strokeLinejoin="round">
@@ -235,7 +234,6 @@ toast.fail = function(text, timer, callbackOk){
 toast.offline = function(text, timer, callbackOk){
   const title = (
     <svg width="32" height="32" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-      <title>网络提示</title>
       <g fill="none" fillRule="evenodd">
         <circle cx="8" cy="8" r="7.75" strokeWidth=".5" stroke="#FFF"/>
         <g fill="#FFF" transform="translate(4.444 5.778)">
@@ -252,7 +250,6 @@ toast.offline = function(text, timer, callbackOk){
 toast.warning = function(text, timer, callbackOk){
   const title = (
     <svg width="32" height="32" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-      <title>警示提示</title>
       <g fill="none" fillRule="evenodd">
         <circle cx="8" cy="8" r="7.75" strokeWidth=".5" stroke="#FFF"/>
         <path d="M7.573 4.444l.197 5.12c.004.12.102.214.222.214h.016c.12 0 .218-.095.222-.214l.197-5.12c.01-.236-.175-.435-.41-.444H8c-.236 0-.428.19-.428.428v.016zm.424 6.223c-.12 0-.224.037-.308.124-.092.082-.134.187-.134.318 0 .124.042.23.133.317.083.087.186.13.307.13.12 0 .23-.043.32-.124.085-.086.127-.19.127-.322 0-.13-.042-.236-.127-.317-.084-.086-.193-.123-.32-.123z" fill="#FFF"/>
