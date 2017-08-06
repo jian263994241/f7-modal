@@ -130,5 +130,9 @@ Modal.toast.warning({
 Modal.toast.offline({
     text, [timer], [callbackOk]
 })
+//waiting
+const close = Modal.toast.waiting({ text });
+
+close();
 
 ```

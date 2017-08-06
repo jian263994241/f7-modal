@@ -50,8 +50,8 @@ class Modal2 extends Component {
         {...rest}
         >
         <div className={styles['modal-inner']}>
-          <div className={styles['modal-title']}>{title}</div>
-          <div className={styles['modal-text']}>{text}</div>
+          {title && <div className={styles['modal-title']}>{title}</div>}
+          {text && <div className={styles['modal-text']}>{text}</div>}
           {textAfter}
         </div>
         {children}
@@ -176,16 +176,19 @@ export function toast (text, timer, callbackOk){
 
   if( addQueue( toast.bind(this, text, timer, callbackOk) ) ) return true;
 
-  if (typeof timer === 'function' || typeof timer === 'undefined') {
-    callbackOk = arguments[1];
-    timer = 1500;
-  }
-  let title = null;
 
-  if(Array.isArray(text)){
-    title = text[1];
-    text = text[0];
+  if(Object.prototype.toString.call(text) === '[object Object]'){
+    var {title, text, timer, callbackOk, closeByOutside} = arguments[0];
+  }else{
+
+    var title = null, closeByOutside = true;
+
+    if (typeof timer === 'function') {
+      callbackOk = arguments[1];
+    }
   }
+
+  timer = timer || 2000;
 
   const onCancel = ()=>{
     mounted.updateProps({visible: false}, callbackOk);
@@ -198,12 +201,14 @@ export function toast (text, timer, callbackOk){
   const mounted = Mounter.mount(
     <Modal2
       type="toast"
-      closeByOutside={true}
+      closeByOutside={closeByOutside}
       onCancel={onCancel}
       text={text}
       title={title}
     />
   );
+
+  return onCancel;
 }
 
 toast.sucess = function (text, timer, callbackOk){
@@ -214,7 +219,7 @@ toast.sucess = function (text, timer, callbackOk){
       </g>
     </svg>
   );
-  toast([text, title], timer, callbackOk );
+  toast( {text, title, timer, callbackOk} );
 }
 
 toast.fail = function(text, timer, callbackOk){
@@ -228,7 +233,7 @@ toast.fail = function(text, timer, callbackOk){
       </g>
     </svg>
   );
-  toast([text, title], timer, callbackOk );
+  toast({text, title, timer, callbackOk});
 }
 
 toast.offline = function(text, timer, callbackOk){
@@ -244,7 +249,7 @@ toast.offline = function(text, timer, callbackOk){
       </g>
     </svg>
   );
-  toast([text, title], timer, callbackOk );
+  toast({text, title, timer, callbackOk});
 }
 
 toast.warning = function(text, timer, callbackOk){
@@ -256,5 +261,12 @@ toast.warning = function(text, timer, callbackOk){
       </g>
     </svg>
   );
-  toast([text, title], timer, callbackOk );
+  toast({text, title, timer, callbackOk});
+}
+
+toast.waiting = function(text){
+  const title = (
+    <div className={styles['preloader']}></div>
+  );
+  return toast({text, title, closeByOutside: false});
 }

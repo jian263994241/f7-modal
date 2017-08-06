@@ -4,13 +4,16 @@ import classnames from 'classnames'
 import $ from 'dom7'
 import styles from './styles'
 
+
 export default class OverLay extends Component {
 
   static uiName = 'OverLay';
 
   static propTypes = {
     visible: PropTypes.bool,
-    type: PropTypes.string
+    real: PropTypes.bool,
+    type: PropTypes.string,
+    upper: PropTypes.instanceOf(Element)
   }
 
   static defaultProps = {
@@ -30,21 +33,38 @@ export default class OverLay extends Component {
     }
   };
 
+  watchOutside = (e)=>{
+    const {upper, onClick, real} = this.props;
+    if(real) return ;
+    const el = upper;
+    if (el && el.contains(e.target) || e.target.nodeName === 'INPUT' ) {
+       return false;
+    }
+    onClick && onClick();
+  }
+
   componentDidUpdate(prevProps, prevState) {
     this.update();
   }
 
   componentDidMount() {
     this.update();
+    $(document).on('click', this.watchOutside);
+  }
+
+  componentWillUnmount() {
+    $(document).off('click', this.watchOutside);
   }
 
   render() {
 
     const {
+      upper,
       visible,
       type,
       onTouchMove,
       className,
+      real,
       ...rest
     } = this.props;
 
@@ -59,8 +79,12 @@ export default class OverLay extends Component {
       [styles['picker-modal-overlay']]: type === 'picker'
     });
 
-    return (
-      <div className={cls} ref="overLay" onTouchMove={preventScrolling} {...rest}></div>
-    );
+    if(real){
+      return (
+        <div className={cls} ref="overLay" onTouchMove={preventScrolling} {...rest}></div>
+      );
+    }else{
+      return <div></div>;
+    }
   }
 }
