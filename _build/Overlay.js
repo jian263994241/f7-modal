@@ -98,7 +98,7 @@ var OverLay = (_temp2 = _class = function (_Component) {
       var _ignore = ignore || _this.ignore;
       if (overlay) return;
       var el = modal;
-      if (el && el.contains(e.target) || _ignore) {
+      if (el && el.contains(e.target) || _ignore(e.target)) {
         return false;
       }
       onClick && onClick();
@@ -133,7 +133,8 @@ var OverLay = (_temp2 = _class = function (_Component) {
           overlay = _props.overlay,
           onTouchMove = _props.onTouchMove,
           className = _props.className,
-          rest = (0, _objectWithoutProperties3.default)(_props, ['modal', 'visible', 'type', 'overlay', 'onTouchMove', 'className']);
+          ignore = _props.ignore,
+          rest = (0, _objectWithoutProperties3.default)(_props, ['modal', 'visible', 'type', 'overlay', 'onTouchMove', 'className', 'ignore']);
 
 
       var preventScrolling = function preventScrolling(e) {

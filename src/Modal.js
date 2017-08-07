@@ -93,6 +93,7 @@ export default class Modal extends Component {
       root,
       type,
       fixTop,
+      ignore,
       children,
       ...rest
     } = this.props;
@@ -110,7 +111,7 @@ export default class Modal extends Component {
 
     const innerElement = [
       <div className={cls} {...rest} ref="modal" key="modal">{children}</div>,
-      <OverLay visible={visible} type={type} onClick={closeByOutside && onCancel} key="overlay" overlay={overlay} modal={this.refs.modal}></OverLay>
+      <OverLay visible={visible} type={type} onClick={closeByOutside && onCancel} key="overlay" ignore={ignore} overlay={overlay} modal={this.refs.modal}></OverLay>
     ];
 
     if(mounter){

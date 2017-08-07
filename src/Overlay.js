@@ -43,7 +43,7 @@ export default class OverLay extends Component {
     const _ignore = ignore || this.ignore;
     if(overlay) return ;
     const el = modal;
-    if (el && el.contains(e.target) || _ignore ) {
+    if (el && el.contains(e.target) || _ignore(e.target) ) {
        return false;
     }
     onClick && onClick();
@@ -71,6 +71,7 @@ export default class OverLay extends Component {
       overlay,
       onTouchMove,
       className,
+      ignore,
       ...rest
     } = this.props;
 
