@@ -88,12 +88,12 @@ var OverLay = (_temp2 = _class = function (_Component) {
       }
     }, _this.watchOutside = function (e) {
       var _this$props = _this.props,
-          upper = _this$props.upper,
+          modal = _this$props.modal,
           onClick = _this$props.onClick,
-          real = _this$props.real;
+          overlay = _this$props.overlay;
 
-      if (real) return;
-      var el = upper;
+      if (overlay) return;
+      var el = modal;
       if (el && el.contains(e.target) || e.target.nodeName === 'INPUT') {
         return false;
       }
@@ -123,13 +123,13 @@ var OverLay = (_temp2 = _class = function (_Component) {
       var _classnames;
 
       var _props = this.props,
-          upper = _props.upper,
+          modal = _props.modal,
           visible = _props.visible,
           type = _props.type,
+          overlay = _props.overlay,
           onTouchMove = _props.onTouchMove,
           className = _props.className,
-          real = _props.real,
-          rest = (0, _objectWithoutProperties3.default)(_props, ['upper', 'visible', 'type', 'onTouchMove', 'className', 'real']);
+          rest = (0, _objectWithoutProperties3.default)(_props, ['modal', 'visible', 'type', 'overlay', 'onTouchMove', 'className']);
 
 
       var preventScrolling = function preventScrolling(e) {
@@ -138,10 +138,10 @@ var OverLay = (_temp2 = _class = function (_Component) {
 
       var cls = (0, _classnames3.default)((_classnames = {}, (0, _defineProperty3.default)(_classnames, _styles2.default['modal-overlay'], type != 'popup'), (0, _defineProperty3.default)(_classnames, _styles2.default['popup-overlay'], type === 'popup'), (0, _defineProperty3.default)(_classnames, _styles2.default['transparent'], type === 'toast' || type === 'preloader'), (0, _defineProperty3.default)(_classnames, _styles2.default['picker-modal-overlay'], type === 'picker'), _classnames));
 
-      if (real) {
+      if (overlay) {
         return _react2.default.createElement('div', (0, _extends3.default)({ className: cls, ref: 'overLay', onTouchMove: preventScrolling }, rest));
       } else {
-        return _react2.default.createElement('div', null);
+        return null;
       }
     }
   }]);
@@ -150,7 +150,7 @@ var OverLay = (_temp2 = _class = function (_Component) {
   visible: _propTypes2.default.bool,
   real: _propTypes2.default.bool,
   type: _propTypes2.default.string,
-  upper: _propTypes2.default.instanceOf(Element)
+  modal: _propTypes2.default.instanceOf(Element)
 }, _class.defaultProps = {
   visible: false,
   type: 'modal'

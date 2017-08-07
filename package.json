@@ -1,6 +1,6 @@
 {
   "name": "f7-modal",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "f7 modal",
   "main": "_build/index.js",
   "scripts": {
@@ -27,7 +27,7 @@
     "classnames": "^2.2.5",
     "dom7": "^1.6.3",
     "prop-types": "^15.5.10",
-    "rc-mounter": "^1.0.5",
+    "rc-mounter": "^1.0.6",
     "react": "^15.6.1",
     "react-dom": "^15.6.1"
   }

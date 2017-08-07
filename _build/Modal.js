@@ -143,31 +143,30 @@ var Modal = (_temp2 = _class = function (_Component) {
           containerCss = _props.containerCss,
           visible = _props.visible,
           onCancel = _props.onCancel,
+          overlay = _props.overlay,
           afterClose = _props.afterClose,
           closeByOutside = _props.closeByOutside,
           mounter = _props.mounter,
           root = _props.root,
           type = _props.type,
           fixTop = _props.fixTop,
-          overlay = _props.overlay,
           children = _props.children,
-          rest = (0, _objectWithoutProperties3.default)(_props, ['className', 'containerCss', 'visible', 'onCancel', 'afterClose', 'closeByOutside', 'mounter', 'root', 'type', 'fixTop', 'overlay', 'children']);
+          rest = (0, _objectWithoutProperties3.default)(_props, ['className', 'containerCss', 'visible', 'onCancel', 'overlay', 'afterClose', 'closeByOutside', 'mounter', 'root', 'type', 'fixTop', 'children']);
 
 
       var cls = (0, _classnames3.default)((_classnames = {}, (0, _defineProperty3.default)(_classnames, _styles2.default['modal'], type === 'modal' || type === 'toast' || type === 'preloader'), (0, _defineProperty3.default)(_classnames, _styles2.default['popup'], type === 'popup'), (0, _defineProperty3.default)(_classnames, _styles2.default['actions-modal'], type === 'actions'), (0, _defineProperty3.default)(_classnames, _styles2.default['picker-modal'], type === 'picker'), (0, _defineProperty3.default)(_classnames, _styles2.default['popover'], type === 'popover'), (0, _defineProperty3.default)(_classnames, _styles2.default['modal-no-buttons'], type === 'toast'), (0, _defineProperty3.default)(_classnames, _styles2.default['preloader-modal'], type === 'preloader'), (0, _defineProperty3.default)(_classnames, _styles2.default['toast'], type === 'toast'), _classnames), className);
 
-      var innerElement = _react2.default.createElement(
+      var innerElement = [_react2.default.createElement(
         'div',
         (0, _extends3.default)({ className: cls }, rest, { ref: 'modal', key: 'modal' }),
         children
-      );
+      ), _react2.default.createElement(_OverLay2.default, { visible: visible, type: type, onClick: closeByOutside && onCancel, key: 'overlay', overlay: overlay, modal: this.refs.modal })];
 
       if (mounter) {
         return _react2.default.createElement(
           _rcMounter2.default,
           { root: root, ref: 'mounter', className: containerCss },
-          innerElement,
-          _react2.default.createElement(_OverLay2.default, { visible: visible, type: type, onClick: closeByOutside && onCancel, key: 'overlay', real: overlay, upper: this.refs.modal })
+          innerElement
         );
       }
 

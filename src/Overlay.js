@@ -13,7 +13,7 @@ export default class OverLay extends Component {
     visible: PropTypes.bool,
     real: PropTypes.bool,
     type: PropTypes.string,
-    upper: PropTypes.instanceOf(Element)
+    modal: PropTypes.instanceOf(Element)
   }
 
   static defaultProps = {
@@ -34,9 +34,9 @@ export default class OverLay extends Component {
   };
 
   watchOutside = (e)=>{
-    const {upper, onClick, real} = this.props;
-    if(real) return ;
-    const el = upper;
+    const {modal, onClick, overlay} = this.props;
+    if(overlay) return ;
+    const el = modal;
     if (el && el.contains(e.target) || e.target.nodeName === 'INPUT' ) {
        return false;
     }
@@ -59,12 +59,12 @@ export default class OverLay extends Component {
   render() {
 
     const {
-      upper,
+      modal,
       visible,
       type,
+      overlay,
       onTouchMove,
       className,
-      real,
       ...rest
     } = this.props;
 
@@ -79,12 +79,12 @@ export default class OverLay extends Component {
       [styles['picker-modal-overlay']]: type === 'picker'
     });
 
-    if(real){
+    if(overlay){
       return (
         <div className={cls} ref="overLay" onTouchMove={preventScrolling} {...rest}></div>
       );
     }else{
-      return <div></div>;
+      return null;
     }
   }
 }

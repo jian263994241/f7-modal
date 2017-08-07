@@ -86,13 +86,13 @@ export default class Modal extends Component {
       containerCss,
       visible,
       onCancel,
+      overlay,
       afterClose,
       closeByOutside,
       mounter,
       root,
       type,
       fixTop,
-      overlay,
       children,
       ...rest
     } = this.props;
@@ -108,14 +108,14 @@ export default class Modal extends Component {
       [styles['toast']]: type === 'toast'
     }, className);
 
-    const innerElement = <div className={cls} {...rest} ref="modal" key="modal">{children}</div>;
+    const innerElement = [
+      <div className={cls} {...rest} ref="modal" key="modal">{children}</div>,
+      <OverLay visible={visible} type={type} onClick={closeByOutside && onCancel} key="overlay" overlay={overlay} modal={this.refs.modal}></OverLay>
+    ];
 
     if(mounter){
       return (
-        <Mounter root={root} ref="mounter" className={containerCss}>
-          {innerElement}
-          <OverLay visible={visible} type={type} onClick={closeByOutside && onCancel} key="overlay" real={overlay} upper={this.refs.modal}></OverLay>
-        </Mounter>
+        <Mounter root={root} ref="mounter" className={containerCss}>{innerElement}</Mounter>
       );
     }
 
