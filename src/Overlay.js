@@ -13,7 +13,8 @@ export default class OverLay extends Component {
     visible: PropTypes.bool,
     real: PropTypes.bool,
     type: PropTypes.string,
-    modal: PropTypes.instanceOf(Element)
+    modal: PropTypes.instanceOf(Element),
+    ignore: PropTypes.func
   }
 
   static defaultProps = {
@@ -33,11 +34,16 @@ export default class OverLay extends Component {
     }
   };
 
+  ignore = (target)=>{
+    return target.nodeName === 'INPUT';
+  }
+
   watchOutside = (e)=>{
-    const {modal, onClick, overlay} = this.props;
+    const {modal, onClick, overlay, ignore} = this.props;
+    const _ignore = ignore || this.ignore;
     if(overlay) return ;
     const el = modal;
-    if (el && el.contains(e.target) || e.target.nodeName === 'INPUT' ) {
+    if (el && el.contains(e.target) || _ignore ) {
        return false;
     }
     onClick && onClick();

@@ -86,15 +86,19 @@ var OverLay = (_temp2 = _class = function (_Component) {
       } else {
         overLay.removeClass(_styles2.default['modal-overlay-visible']);
       }
+    }, _this.ignore = function (target) {
+      return target.nodeName === 'INPUT';
     }, _this.watchOutside = function (e) {
       var _this$props = _this.props,
           modal = _this$props.modal,
           onClick = _this$props.onClick,
-          overlay = _this$props.overlay;
+          overlay = _this$props.overlay,
+          ignore = _this$props.ignore;
 
+      var _ignore = ignore || _this.ignore;
       if (overlay) return;
       var el = modal;
-      if (el && el.contains(e.target) || e.target.nodeName === 'INPUT') {
+      if (el && el.contains(e.target) || _ignore) {
         return false;
       }
       onClick && onClick();
@@ -150,7 +154,8 @@ var OverLay = (_temp2 = _class = function (_Component) {
   visible: _propTypes2.default.bool,
   real: _propTypes2.default.bool,
   type: _propTypes2.default.string,
-  modal: _propTypes2.default.instanceOf(Element)
+  modal: _propTypes2.default.instanceOf(Element),
+  ignore: _propTypes2.default.func
 }, _class.defaultProps = {
   visible: false,
   type: 'modal'
