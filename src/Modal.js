@@ -15,7 +15,8 @@ export default class Modal extends Component {
     fixTop: true,
     type: 'modal',
     closeByOutside: true,
-    overlay: true
+    overlay: true,
+    mounter: true
   }
 
   static propTypes = {

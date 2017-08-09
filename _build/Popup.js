@@ -63,7 +63,7 @@ var Popup = (_temp = _class = function (_Component) {
 
       return _react2.default.createElement(
         _Modal2.default,
-        (0, _extends3.default)({}, rest, { type: 'popup', fixTop: false }),
+        (0, _extends3.default)({ type: 'popup', fixTop: false, mounter: true }, rest),
         children
       );
     }

@@ -5,7 +5,7 @@ import Modal from './Modal'
 import styles from './styles'
 
 export default class PickerModal extends Component {
-  
+
   static uiName = 'PickerModal';
 
   static propTypes = {

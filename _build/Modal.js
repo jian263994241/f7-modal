@@ -184,7 +184,8 @@ var Modal = (_temp2 = _class = function (_Component) {
   fixTop: true,
   type: 'modal',
   closeByOutside: true,
-  overlay: true
+  overlay: true,
+  mounter: true
 }, _class.propTypes = {
   visible: _propTypes2.default.bool,
   afterClose: _propTypes2.default.func,
