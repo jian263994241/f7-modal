@@ -176,7 +176,6 @@ export function toast (text, timer, callbackOk){
 
   if( addQueue( toast.bind(this, text, timer, callbackOk) ) ) return true;
 
-
   if(Object.prototype.toString.call(text) === '[object Object]'){
     var {title, text, timer, callbackOk, closeByOutside} = arguments[0];
   }else{
@@ -185,16 +184,25 @@ export function toast (text, timer, callbackOk){
 
     if (typeof timer === 'function') {
       callbackOk = arguments[1];
+      timer = 2000;
     }
   }
 
-  timer = timer || 2000;
+  timer = timer != undefined ? timer: 2000;
+
+  var timeoutfn = null;
 
   const onCancel = ()=>{
+    clearTimeout(timeoutfn);
     mounted.updateProps({visible: false}, callbackOk);
   }
 
-  setTimeout(onCancel, timer);
+  if(timer === 0){
+    closeByOutside = false;
+    callbackOk && callbackOk(onCancel);
+  }else{
+    timeoutfn = setTimeout(onCancel, timer);
+  }
 
   modalLock = true;
 
@@ -208,10 +216,14 @@ export function toast (text, timer, callbackOk){
     />
   );
 
-  return onCancel;
 }
 
 toast.sucess = function (text, timer, callbackOk){
+  if (typeof timer === 'function') {
+    callbackOk = arguments[1];
+    timer = 2000;
+  }
+
   const title = (
     <svg width="32" height="32" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
       <g stroke="#FFF" strokeWidth=".5" fill="none" fillRule="evenodd">
@@ -223,6 +235,10 @@ toast.sucess = function (text, timer, callbackOk){
 }
 
 toast.fail = function(text, timer, callbackOk){
+  if (typeof timer === 'function') {
+    callbackOk = arguments[1];
+    timer = 2000;
+  }
   const title = (
     <svg width="32" height="32" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
       <g strokeWidth=".5" stroke="#FFF" fill="none" fillRule="evenodd">
@@ -237,6 +253,10 @@ toast.fail = function(text, timer, callbackOk){
 }
 
 toast.offline = function(text, timer, callbackOk){
+  if (typeof timer === 'function') {
+    callbackOk = arguments[1];
+    timer = 2000;
+  }
   const title = (
     <svg width="32" height="32" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
       <g fill="none" fillRule="evenodd">
@@ -253,6 +273,10 @@ toast.offline = function(text, timer, callbackOk){
 }
 
 toast.warning = function(text, timer, callbackOk){
+  if (typeof timer === 'function') {
+    callbackOk = arguments[1];
+    timer = 2000;
+  }
   const title = (
     <svg width="32" height="32" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
       <g fill="none" fillRule="evenodd">
@@ -264,9 +288,9 @@ toast.warning = function(text, timer, callbackOk){
   toast({text, title, timer, callbackOk});
 }
 
-toast.waiting = function(text){
+toast.waiting = function(text, callbackOk){
   const title = (
     <div className={styles['preloader']}></div>
   );
-  return toast({text, title, closeByOutside: false});
+  return toast({text, title, timer: 0, callbackOk});
 }

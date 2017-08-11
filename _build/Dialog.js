@@ -330,16 +330,25 @@ function toast(text, timer, callbackOk) {
 
     if (typeof timer === 'function') {
       callbackOk = arguments[1];
+      timer = 2000;
     }
   }
 
-  timer = timer || 2000;
+  timer = timer != undefined ? timer : 2000;
+
+  var timeoutfn = null;
 
   var onCancel = function onCancel() {
+    clearTimeout(timeoutfn);
     mounted.updateProps({ visible: false }, callbackOk);
   };
 
-  setTimeout(onCancel, timer);
+  if (timer === 0) {
+    closeByOutside = false;
+    callbackOk && callbackOk(onCancel);
+  } else {
+    timeoutfn = setTimeout(onCancel, timer);
+  }
 
   modalLock = true;
 
@@ -350,11 +359,14 @@ function toast(text, timer, callbackOk) {
     text: text,
     title: title
   }));
-
-  return onCancel;
 }
 
 toast.sucess = function (text, timer, callbackOk) {
+  if (typeof timer === 'function') {
+    callbackOk = arguments[1];
+    timer = 2000;
+  }
+
   var title = _react2.default.createElement(
     'svg',
     { width: '32', height: '32', viewBox: '0 0 16 16', xmlns: 'http://www.w3.org/2000/svg' },
@@ -369,6 +381,10 @@ toast.sucess = function (text, timer, callbackOk) {
 };
 
 toast.fail = function (text, timer, callbackOk) {
+  if (typeof timer === 'function') {
+    callbackOk = arguments[1];
+    timer = 2000;
+  }
   var title = _react2.default.createElement(
     'svg',
     { width: '32', height: '32', viewBox: '0 0 16 16', xmlns: 'http://www.w3.org/2000/svg' },
@@ -387,6 +403,10 @@ toast.fail = function (text, timer, callbackOk) {
 };
 
 toast.offline = function (text, timer, callbackOk) {
+  if (typeof timer === 'function') {
+    callbackOk = arguments[1];
+    timer = 2000;
+  }
   var title = _react2.default.createElement(
     'svg',
     { width: '32', height: '32', viewBox: '0 0 16 16', xmlns: 'http://www.w3.org/2000/svg' },
@@ -407,6 +427,10 @@ toast.offline = function (text, timer, callbackOk) {
 };
 
 toast.warning = function (text, timer, callbackOk) {
+  if (typeof timer === 'function') {
+    callbackOk = arguments[1];
+    timer = 2000;
+  }
   var title = _react2.default.createElement(
     'svg',
     { width: '32', height: '32', viewBox: '0 0 16 16', xmlns: 'http://www.w3.org/2000/svg' },
@@ -420,7 +444,7 @@ toast.warning = function (text, timer, callbackOk) {
   toast({ text: text, title: title, timer: timer, callbackOk: callbackOk });
 };
 
-toast.waiting = function (text) {
+toast.waiting = function (text, callbackOk) {
   var title = _react2.default.createElement('div', { className: _styles2.default['preloader'] });
-  return toast({ text: text, title: title, closeByOutside: false });
+  return toast({ text: text, title: title, timer: 0, callbackOk: callbackOk });
 };

@@ -131,8 +131,7 @@ Modal.toast.offline({
     text, [timer], [callbackOk]
 })
 //waiting
-const close = Modal.toast.waiting({ text });
+Modal.toast.waiting(text, (done)=>{});
 
-close();
 
 ```

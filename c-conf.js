@@ -1,6 +1,5 @@
-const path = require('path');
 
-fis.project.setProjectRoot(path.join(process.cwd(), '/src'));
+fis.project.setProjectRoot('./src');
 
 fis.match('**.js',{
   parser: fis.plugin('babeljs')

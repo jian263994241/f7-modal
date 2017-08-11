@@ -100,7 +100,7 @@ var PickerModal = (_temp = _class = function (_Component) {
 
       return _react2.default.createElement(
         _Modal2.default,
-        (0, _extends3.default)({}, rest, { type: 'picker', onCancel: onCancel, fixTop: false }),
+        (0, _extends3.default)({ type: 'picker', onCancel: onCancel, fixTop: false }, rest),
         preset,
         _react2.default.createElement(
           'div',
