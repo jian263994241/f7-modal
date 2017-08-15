@@ -32,14 +32,14 @@ export default class PickerModal extends Component {
 
     const type = 'picker';
 
-    const preset = toolbar || (
+    const preset = (toolbar === undefined) ? (
       <div className={styles['toolbar']}>
         <div className={styles['toolbar-inner']}>
           <div className="left"></div>
           <div className="right"><a onClick={onCancel} className="link">{cancelText}</a></div>
         </div>
       </div>
-    );
+    ) : toolbar;
 
     return (
       <Modal type="picker" onCancel={onCancel} fixTop={false} {...rest}>

@@ -35,7 +35,7 @@ export default class OverLay extends Component {
   };
 
   ignore = (target)=>{
-    return target.nodeName === 'INPUT';
+    return true;
   }
 
   watchOutside = (e)=>{

@@ -87,7 +87,7 @@ var OverLay = (_temp2 = _class = function (_Component) {
         overLay.removeClass(_styles2.default['modal-overlay-visible']);
       }
     }, _this.ignore = function (target) {
-      return target.nodeName === 'INPUT';
+      return true;
     }, _this.watchOutside = function (e) {
       var _this$props = _this.props,
           modal = _this$props.modal,

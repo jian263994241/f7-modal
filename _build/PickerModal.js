@@ -79,7 +79,7 @@ var PickerModal = (_temp = _class = function (_Component) {
 
       var type = 'picker';
 
-      var preset = toolbar || _react2.default.createElement(
+      var preset = toolbar === undefined ? _react2.default.createElement(
         'div',
         { className: _styles2.default['toolbar'] },
         _react2.default.createElement(
@@ -96,7 +96,7 @@ var PickerModal = (_temp = _class = function (_Component) {
             )
           )
         )
-      );
+      ) : toolbar;
 
       return _react2.default.createElement(
         _Modal2.default,
