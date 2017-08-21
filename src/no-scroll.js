@@ -3,7 +3,7 @@ export default class noScroll {
 
   constructor (target){
 
-    this.target = document.querySelector(target || '.page-content') ;
+    this.target = document.querySelector(target || '.page-content') || document.querySelector('html');
   }
 
   on = ()=>{

@@ -31,7 +31,7 @@ var noScroll = function noScroll(target) {
         domPageContent.style.overflow = styleOverflowValue === 'hidden' ? 'auto' : 'hidden';
     };
 
-    this.target = document.querySelector(target || '.page-content');
+    this.target = document.querySelector(target || '.page-content') || document.querySelector('html');
 };
 
 exports.default = noScroll;
