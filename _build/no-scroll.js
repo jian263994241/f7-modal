@@ -21,14 +21,14 @@ var noScroll = function noScroll(target) {
     };
 
     this.off = function () {
-        _this.target.style.overflow = 'auto';
+        _this.target.style.overflow = null;
     };
 
     this.toggle = function () {
         var domPageContent = _this.target,
             styleOverflowValue = domPageContent.style.overflow;
 
-        domPageContent.style.overflow = styleOverflowValue === 'hidden' ? 'auto' : 'hidden';
+        domPageContent.style.overflow = styleOverflowValue === 'hidden' ? null : 'hidden';
     };
 
     this.target = document.querySelector(target || '.page-content') || document.querySelector('html');

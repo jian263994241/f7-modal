@@ -11,14 +11,14 @@ export default class noScroll {
   };
 
   off = ()=>{
-      this.target.style.overflow = 'auto';
+      this.target.style.overflow = null;
   };
 
   toggle = ()=>{
       let domPageContent = this.target,
           styleOverflowValue = domPageContent.style.overflow;
 
-      domPageContent.style.overflow = styleOverflowValue === 'hidden' ? 'auto' : 'hidden';
+      domPageContent.style.overflow = styleOverflowValue === 'hidden' ? null : 'hidden';
   };
 
 }
