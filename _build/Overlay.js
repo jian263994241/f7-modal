@@ -59,7 +59,7 @@ var _styles = require('./styles');
 
 var _styles2 = _interopRequireDefault(_styles);
 
-var _noScroll = require('./no-scroll');
+var _noScroll = require('no-scroll');
 
 var _noScroll2 = _interopRequireDefault(_noScroll);
 
@@ -86,11 +86,11 @@ var OverLay = (_temp2 = _class = function (_Component) {
       if (visible) {
         setTimeout(function () {
           overLay.addClass(_styles2.default['modal-overlay-visible']);
-          _this.noscroll.on();
+          _noScroll2.default.on();
         }, 16);
       } else {
         overLay.removeClass(_styles2.default['modal-overlay-visible']);
-        _this.noscroll.off();
+        _noScroll2.default.off();
       }
     }, _this.ignore = function (target) {
       return true;
@@ -115,11 +115,6 @@ var OverLay = (_temp2 = _class = function (_Component) {
     key: 'componentDidUpdate',
     value: function componentDidUpdate(prevProps, prevState) {
       this.update();
-    }
-  }, {
-    key: 'componentWillMount',
-    value: function componentWillMount() {
-      this.noscroll = new _noScroll2.default();
     }
   }, {
     key: 'componentDidMount',

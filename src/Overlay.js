@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import $ from 'dom7'
 import styles from './styles'
-import noScroll from './no-scroll'
+import noScroll from 'no-scroll'
 
 export default class OverLay extends Component {
 
@@ -28,11 +28,11 @@ export default class OverLay extends Component {
     if(visible){
       setTimeout(()=>{
         overLay.addClass(styles['modal-overlay-visible']);
-        this.noscroll.on();
+        noScroll.on();
       },16)
     }else{
       overLay.removeClass(styles['modal-overlay-visible']);
-      this.noscroll.off();
+      noScroll.off();
     }
   };
 
@@ -53,10 +53,6 @@ export default class OverLay extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     this.update();
-  }
-
-  componentWillMount() {
-    this.noscroll = new noScroll();
   }
 
   componentDidMount() {
