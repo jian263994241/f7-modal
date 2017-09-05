@@ -118,18 +118,10 @@ Modal.toast({
 })
 
 // 更多toast
-Modal.toast.sucess({
-    text, [timer], [callbackOk]
-})
-Modal.toast.fail({
-    text, [timer], [callbackOk]
-})
-Modal.toast.warning({
-    text, [timer], [callbackOk]
-})
-Modal.toast.offline({
-    text, [timer], [callbackOk]
-})
+Modal.toast.sucess(text, [timer], [callbackOk])
+Modal.toast.fail(text, [timer], [callbackOk])
+Modal.toast.warning(text, [timer], [callbackOk])
+Modal.toast.offline(text, [timer], [callbackOk])
 //waiting
 Modal.toast.waiting(text, (done)=>{});
 
