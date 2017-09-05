@@ -31,47 +31,63 @@ export default class Modal extends Component {
     overlay: PropTypes.bool
   }
 
+  state = {
+    style: {display: 'block'},
+    css: ''
+  }
+
   getModal = ()=>{
     return this.refs.modal
   }
 
-  update = (initial)=>{
+  update = ()=>{
     const {visible, afterClose, fixTop} = this.props;
-    const modal = $(this.refs.modal);
+
     if(visible){
-      // console.log('Modal Opened');
-      modal.removeClass(styles['modal-out']).show();
+      this.setState({
+        style: {display: 'block'},
+      });
       setTimeout(()=>{
         $(window).trigger('resize');
-        modal.addClass(styles['modal-in']);
-        if(fixTop){
-          this.fixTop();
-        }
+        this.setState({
+          css: styles['modal-in'],
+          style: {
+            display: 'block',
+            marginTop:  fixTop ? this.fixTop() : null
+          }
+        });
       }, 16);
     }else{
-      // console.log('Modal Closed');
-      modal.removeClass(styles['modal-in']).addClass(styles['modal-out']);
-      if(!initial){
-        modal.transitionEnd((e)=>{
-          modal.hide();
-          afterClose && afterClose();
-        });
-      }
+      this.setState({
+        css: styles['modal-out']
+      });
     }
   };
 
   fixTop = ()=>{
     const modal = $(this.refs.modal);
     const topx = - Math.round(modal.outerHeight() / 2) - 8 ;
-    modal.css({marginTop:  topx+ 'px'});
+    return topx+ 'px';
   };
 
   getMounter = ()=>{
     return this.refs.mounter;
   };
 
+  _transitionEnd = ()=>{
+    const {visible, afterClose} = this.props;
+    if(!visible){
+      this.setState({
+        css: '',
+        style: {display: 'none'},
+      });
+      afterClose && afterClose();
+    }
+  }
+
   componentDidMount() {
-    this.update(true);
+    this.update();
+    this._transitionEnd();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -96,6 +112,7 @@ export default class Modal extends Component {
       fixTop,
       ignore,
       children,
+      style,
       ...rest
     } = this.props;
 
@@ -107,11 +124,20 @@ export default class Modal extends Component {
       [styles['popover']]: type === 'popover',
       [styles['modal-no-buttons']]: type==='toast',
       [styles['preloader-modal']]: type === 'preloader',
-      [styles['toast']]: type === 'toast'
+      [styles['toast']]: type === 'toast',
+      [this.state.css]: true
     }, className);
 
+    const _style = {...this.state.style, ...style};
+
     const innerElement = [
-      <div className={cls} {...rest} ref="modal" key="modal">{children}</div>,
+      <div className={cls}
+        ref="modal"
+        key="modal"
+        style={_style}
+        {...rest}
+        onTransitionEnd={this._transitionEnd}
+        >{children}</div>,
       <OverLay visible={visible} type={type} onClick={closeByOutside && onCancel} key="overlay" ignore={ignore} overlay={overlay} modal={this.refs.modal}></OverLay>
     ];
 

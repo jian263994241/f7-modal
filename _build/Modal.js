@@ -83,48 +83,63 @@ var Modal = (_temp2 = _class = function (_Component) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Modal.__proto__ || (0, _getPrototypeOf2.default)(Modal)).call.apply(_ref, [this].concat(args))), _this), _this.getModal = function () {
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = Modal.__proto__ || (0, _getPrototypeOf2.default)(Modal)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+      style: { display: 'block' },
+      css: ''
+    }, _this.getModal = function () {
       return _this.refs.modal;
-    }, _this.update = function (initial) {
+    }, _this.update = function () {
       var _this$props = _this.props,
           visible = _this$props.visible,
           afterClose = _this$props.afterClose,
           fixTop = _this$props.fixTop;
 
-      var modal = (0, _dom2.default)(_this.refs.modal);
+
       if (visible) {
-        // console.log('Modal Opened');
-        modal.removeClass(_styles2.default['modal-out']).show();
+        _this.setState({
+          style: { display: 'block' }
+        });
         setTimeout(function () {
           (0, _dom2.default)(window).trigger('resize');
-          modal.addClass(_styles2.default['modal-in']);
-          if (fixTop) {
-            _this.fixTop();
-          }
+          _this.setState({
+            css: _styles2.default['modal-in'],
+            style: {
+              display: 'block',
+              marginTop: fixTop ? _this.fixTop() : null
+            }
+          });
         }, 16);
       } else {
-        // console.log('Modal Closed');
-        modal.removeClass(_styles2.default['modal-in']).addClass(_styles2.default['modal-out']);
-        if (!initial) {
-          modal.transitionEnd(function (e) {
-            modal.hide();
-            afterClose && afterClose();
-          });
-        }
+        _this.setState({
+          css: _styles2.default['modal-out']
+        });
       }
     }, _this.fixTop = function () {
       var modal = (0, _dom2.default)(_this.refs.modal);
       var topx = -Math.round(modal.outerHeight() / 2) - 8;
-      modal.css({ marginTop: topx + 'px' });
+      return topx + 'px';
     }, _this.getMounter = function () {
       return _this.refs.mounter;
+    }, _this._transitionEnd = function () {
+      var _this$props2 = _this.props,
+          visible = _this$props2.visible,
+          afterClose = _this$props2.afterClose;
+
+      if (!visible) {
+        _this.setState({
+          css: '',
+          style: { display: 'none' }
+        });
+        afterClose && afterClose();
+      }
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
   (0, _createClass3.default)(Modal, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      this.update(true);
+      this.update();
+      this._transitionEnd();
     }
   }, {
     key: 'componentDidUpdate',
@@ -152,14 +167,23 @@ var Modal = (_temp2 = _class = function (_Component) {
           fixTop = _props.fixTop,
           ignore = _props.ignore,
           children = _props.children,
-          rest = (0, _objectWithoutProperties3.default)(_props, ['className', 'containerCss', 'visible', 'onCancel', 'overlay', 'afterClose', 'closeByOutside', 'mounter', 'root', 'type', 'fixTop', 'ignore', 'children']);
+          style = _props.style,
+          rest = (0, _objectWithoutProperties3.default)(_props, ['className', 'containerCss', 'visible', 'onCancel', 'overlay', 'afterClose', 'closeByOutside', 'mounter', 'root', 'type', 'fixTop', 'ignore', 'children', 'style']);
 
 
-      var cls = (0, _classnames3.default)((_classnames = {}, (0, _defineProperty3.default)(_classnames, _styles2.default['modal'], type === 'modal' || type === 'toast' || type === 'preloader'), (0, _defineProperty3.default)(_classnames, _styles2.default['popup'], type === 'popup'), (0, _defineProperty3.default)(_classnames, _styles2.default['actions-modal'], type === 'actions'), (0, _defineProperty3.default)(_classnames, _styles2.default['picker-modal'], type === 'picker'), (0, _defineProperty3.default)(_classnames, _styles2.default['popover'], type === 'popover'), (0, _defineProperty3.default)(_classnames, _styles2.default['modal-no-buttons'], type === 'toast'), (0, _defineProperty3.default)(_classnames, _styles2.default['preloader-modal'], type === 'preloader'), (0, _defineProperty3.default)(_classnames, _styles2.default['toast'], type === 'toast'), _classnames), className);
+      var cls = (0, _classnames3.default)((_classnames = {}, (0, _defineProperty3.default)(_classnames, _styles2.default['modal'], type === 'modal' || type === 'toast' || type === 'preloader'), (0, _defineProperty3.default)(_classnames, _styles2.default['popup'], type === 'popup'), (0, _defineProperty3.default)(_classnames, _styles2.default['actions-modal'], type === 'actions'), (0, _defineProperty3.default)(_classnames, _styles2.default['picker-modal'], type === 'picker'), (0, _defineProperty3.default)(_classnames, _styles2.default['popover'], type === 'popover'), (0, _defineProperty3.default)(_classnames, _styles2.default['modal-no-buttons'], type === 'toast'), (0, _defineProperty3.default)(_classnames, _styles2.default['preloader-modal'], type === 'preloader'), (0, _defineProperty3.default)(_classnames, _styles2.default['toast'], type === 'toast'), (0, _defineProperty3.default)(_classnames, this.state.css, true), _classnames), className);
+
+      var _style = (0, _extends3.default)({}, this.state.style, style);
 
       var innerElement = [_react2.default.createElement(
         'div',
-        (0, _extends3.default)({ className: cls }, rest, { ref: 'modal', key: 'modal' }),
+        (0, _extends3.default)({ className: cls,
+          ref: 'modal',
+          key: 'modal',
+          style: _style
+        }, rest, {
+          onTransitionEnd: this._transitionEnd
+        }),
         children
       ), _react2.default.createElement(_OverLay2.default, { visible: visible, type: type, onClick: closeByOutside && onCancel, key: 'overlay', ignore: ignore, overlay: overlay, modal: this.refs.modal })];
 
