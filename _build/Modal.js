@@ -51,10 +51,6 @@ var _classnames2 = require('classnames');
 
 var _classnames3 = _interopRequireDefault(_classnames2);
 
-var _dom = require('dom7');
-
-var _dom2 = _interopRequireDefault(_dom);
-
 var _rcMounter = require('rc-mounter');
 
 var _rcMounter2 = _interopRequireDefault(_rcMounter);

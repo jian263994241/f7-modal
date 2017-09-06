@@ -1,7 +1,6 @@
 import React, {Component, cloneElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import $ from 'dom7'
 import Mounter from 'rc-mounter'
 import OverLay from './OverLay'
 import styles from './styles'
