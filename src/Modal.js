@@ -32,7 +32,6 @@ export default class Modal extends Component {
   }
 
   state = {
-    style: {display: 'block'},
     css: ''
   }
 
@@ -42,19 +41,13 @@ export default class Modal extends Component {
 
   update = ()=>{
     const {visible, afterClose, fixTop} = this.props;
-
+    const modal = this.refs.modal;
     if(visible){
-      this.setState({
-        style: {display: 'block'},
-      });
+      modal.style.display = 'block';
+      this.fixTop();
       setTimeout(()=>{
-        $(window).trigger('resize');
         this.setState({
-          css: styles['modal-in'],
-          style: {
-            display: 'block',
-            marginTop:  fixTop ? this.fixTop() : null
-          }
+          css: styles['modal-in']
         });
       }, 16);
     }else{
@@ -65,22 +58,23 @@ export default class Modal extends Component {
   };
 
   fixTop = ()=>{
-    const modal = $(this.refs.modal);
-    const topx = - Math.round(modal.outerHeight() / 2) - 8 ;
-    return topx+ 'px';
+    const {fixTop} = this.props;
+    const modal = this.refs.modal;
+    const topx = - Math.round(modal.offsetHeight / 2) - 8 ;
+    if(!fixTop) return ;
+    modal.style.marginTop = topx + 'px';
   };
 
   getMounter = ()=>{
-    return this.refs.mounter;
+    return this.refs.wrapper;
   };
 
   _transitionEnd = ()=>{
     const {visible, afterClose} = this.props;
+    const modal = this.refs.modal;
     if(!visible){
-      this.setState({
-        css: '',
-        style: {display: 'none'},
-      });
+      this.setState({css:''});
+      modal.style.display = 'none';
       afterClose && afterClose();
     }
   }
@@ -112,7 +106,6 @@ export default class Modal extends Component {
       fixTop,
       ignore,
       children,
-      style,
       ...rest
     } = this.props;
 
@@ -128,27 +121,18 @@ export default class Modal extends Component {
       [this.state.css]: true
     }, className);
 
-    const _style = {...this.state.style, ...style};
-
-    const innerElement = [
-      <div className={cls}
-        ref="modal"
-        key="modal"
-        style={_style}
-        {...rest}
-        onTransitionEnd={this._transitionEnd}
-        >{children}</div>,
-      <OverLay visible={visible} type={type} onClick={closeByOutside && onCancel} key="overlay" ignore={ignore} overlay={overlay} modal={this.refs.modal}></OverLay>
-    ];
-
-    if(mounter){
-      return (
-        <Mounter root={root} ref="mounter" className={containerCss}>{innerElement}</Mounter>
-      );
-    }
+    const Element = mounter? Mounter: 'div';
 
     return (
-      <div className={containerCss}>{innerElement}</div>
+      <Element className={containerCss} ref="wrapper">
+        <div className={cls}
+          ref="modal"
+          style={{display:'block'}}
+          {...rest}
+          onTransitionEnd={this._transitionEnd}
+          >{children}</div>,
+        <OverLay visible={visible} type={type} onClick={closeByOutside && onCancel} ignore={ignore} overlay={overlay} modal={this.refs.modal}></OverLay>
+      </Element>
     );
   }
 }
