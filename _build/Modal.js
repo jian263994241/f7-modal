@@ -178,7 +178,6 @@ var Modal = (_temp2 = _class = function (_Component) {
           }),
           children
         ),
-        ',',
         _react2.default.createElement(_OverLay2.default, { visible: visible, type: type, onClick: closeByOutside && onCancel, ignore: ignore, overlay: overlay, modal: this.refs.modal })
       );
     }

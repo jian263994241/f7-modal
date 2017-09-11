@@ -129,7 +129,7 @@ export default class Modal extends Component {
           style={{display:'block'}}
           {...rest}
           onTransitionEnd={this._transitionEnd}
-          >{children}</div>,
+          >{children}</div>
         <OverLay visible={visible} type={type} onClick={closeByOutside && onCancel} ignore={ignore} overlay={overlay} modal={this.refs.modal}></OverLay>
       </Element>
     );
