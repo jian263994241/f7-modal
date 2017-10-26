@@ -11,6 +11,6 @@ Modal.confirm = confirm;
 Modal.prompt = prompt;
 Modal.toast = toast;
 
+const f7Modal = {Modal, Popup, PickerModal, ActionsModal};
 
-
-export {Modal, Popup, PickerModal, ActionsModal};
+export default f7Modal;

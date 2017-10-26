@@ -6,12 +6,12 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'f7-modal.js',
     libraryExport: "default" ,
-    libraryTarget: "amd"
+    libraryTarget: "umd"
   },
 
   module: {
     rules: [
-      webpack.preset.cssRule({modules: true, sourceMap: true}),
+      webpack.preset.cssRule({modules: true, hmr: false}),
       webpack.preset.babelRule()
     ]
   },
