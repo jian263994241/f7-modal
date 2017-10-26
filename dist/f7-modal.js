@@ -472,7 +472,7 @@ var Modal = (_temp2 = _class = function (_Component) {
           }, rest),
           children
         ),
-        _react2.default.createElement(_OverLay2.default, { visible: visible, type: type, onClick: closeByOutside && onCancel, ignore: ignore, overlay: overlay, modal: this.refs.modal })
+        overlay && _react2.default.createElement(_OverLay2.default, { visible: visible, type: type, onClick: closeByOutside && onCancel, ignore: ignore, modal: this.refs.modal })
       );
     }
   }]);
@@ -1229,6 +1229,7 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_56__;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.ActionsModal = exports.PickerModal = exports.Popup = exports.Modal = undefined;
 
 var _Modal = __webpack_require__(12);
 
@@ -1260,6 +1261,10 @@ _Modal2.default.toast = _Dialog.toast;
 var f7Modal = { Modal: _Modal2.default, Popup: _Popup2.default, PickerModal: _PickerModal2.default, ActionsModal: _ActionsModal2.default };
 
 exports.default = f7Modal;
+exports.Modal = _Modal2.default;
+exports.Popup = _Popup2.default;
+exports.PickerModal = _PickerModal2.default;
+exports.ActionsModal = _ActionsModal2.default;
 
 /***/ }),
 /* 58 */
@@ -2204,22 +2209,6 @@ var OverLay = (_temp2 = _class = function (_Component) {
       } else {
         overLay.classList.remove(_styles2.default['modal-overlay-visible']);
       }
-    }, _this.ignore = function (target) {
-      return true;
-    }, _this.watchOutside = function (e) {
-      var _this$props = _this.props,
-          modal = _this$props.modal,
-          onClick = _this$props.onClick,
-          overlay = _this$props.overlay,
-          ignore = _this$props.ignore;
-
-      var _ignore = ignore || _this.ignore;
-      if (overlay) return;
-      var el = modal;
-      if (el && el.contains(e.target) || _ignore(e.target)) {
-        return false;
-      }
-      onClick && onClick();
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
@@ -2232,12 +2221,6 @@ var OverLay = (_temp2 = _class = function (_Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       this.update();
-      document.addEventListener('click', this.watchOutside, false);
-    }
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      document.removeEventListener('click', this.watchOutside, false);
     }
   }, {
     key: 'render',
@@ -2248,11 +2231,9 @@ var OverLay = (_temp2 = _class = function (_Component) {
           modal = _props.modal,
           visible = _props.visible,
           type = _props.type,
-          overlay = _props.overlay,
           onTouchMove = _props.onTouchMove,
           className = _props.className,
-          ignore = _props.ignore,
-          rest = (0, _objectWithoutProperties3.default)(_props, ['modal', 'visible', 'type', 'overlay', 'onTouchMove', 'className', 'ignore']);
+          rest = (0, _objectWithoutProperties3.default)(_props, ['modal', 'visible', 'type', 'onTouchMove', 'className']);
 
 
       var preventScrolling = function preventScrolling(e) {
@@ -2261,11 +2242,7 @@ var OverLay = (_temp2 = _class = function (_Component) {
 
       var cls = (0, _classnames3.default)((_classnames = {}, (0, _defineProperty3.default)(_classnames, _styles2.default['modal-overlay'], type != 'popup'), (0, _defineProperty3.default)(_classnames, _styles2.default['popup-overlay'], type === 'popup'), (0, _defineProperty3.default)(_classnames, _styles2.default['transparent'], type === 'toast' || type === 'preloader'), (0, _defineProperty3.default)(_classnames, _styles2.default['picker-modal-overlay'], type === 'picker'), _classnames));
 
-      if (overlay) {
-        return _react2.default.createElement('div', (0, _extends3.default)({ className: cls, ref: 'overLay', onTouchMove: preventScrolling, style: { display: 'none' } }, rest));
-      } else {
-        return null;
-      }
+      return _react2.default.createElement('div', (0, _extends3.default)({ className: cls, ref: 'overLay', onTouchMove: preventScrolling, style: { display: 'none' } }, rest));
     }
   }]);
   return OverLay;
@@ -2273,8 +2250,7 @@ var OverLay = (_temp2 = _class = function (_Component) {
   visible: _propTypes2.default.bool,
   real: _propTypes2.default.bool,
   type: _propTypes2.default.string,
-  modal: _propTypes2.default.instanceOf(Element),
-  ignore: _propTypes2.default.func
+  modal: _propTypes2.default.instanceOf(Element)
 }, _class.defaultProps = {
   visible: false,
   type: 'modal'

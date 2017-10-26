@@ -11,8 +11,7 @@ export default class OverLay extends Component {
     visible: PropTypes.bool,
     real: PropTypes.bool,
     type: PropTypes.string,
-    modal: PropTypes.instanceOf(Element),
-    ignore: PropTypes.func
+    modal: PropTypes.instanceOf(Element)
   }
 
   static defaultProps = {
@@ -33,33 +32,15 @@ export default class OverLay extends Component {
     }
   };
 
-  ignore = (target)=>{
-    return true;
-  }
-
-  watchOutside = (e)=>{
-    const {modal, onClick, overlay, ignore} = this.props;
-    const _ignore = ignore || this.ignore;
-    if(overlay) return ;
-    const el = modal;
-    if (el && el.contains(e.target) || _ignore(e.target) ) {
-       return false;
-    }
-    onClick && onClick();
-  }
-
   componentDidUpdate(prevProps, prevState) {
     this.update();
   }
 
   componentDidMount() {
     this.update();
-    document.addEventListener('click', this.watchOutside, false);
   }
 
-  componentWillUnmount() {
-    document.removeEventListener('click', this.watchOutside, false);
-  }
+
 
   render() {
 
@@ -67,10 +48,8 @@ export default class OverLay extends Component {
       modal,
       visible,
       type,
-      overlay,
       onTouchMove,
       className,
-      ignore,
       ...rest
     } = this.props;
 
@@ -85,12 +64,8 @@ export default class OverLay extends Component {
       [styles['picker-modal-overlay']]: type === 'picker'
     });
 
-    if(overlay){
-      return (
-        <div className={cls} ref="overLay" onTouchMove={preventScrolling} style={{display:'none'}} {...rest}></div>
-      );
-    }else{
-      return null;
-    }
+    return (
+      <div className={cls} ref="overLay" onTouchMove={preventScrolling} style={{display:'none'}} {...rest}></div>
+    );
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "f7-modal",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "f7 modal",
   "main": "dist/f7-modal.js",
   "scripts": {

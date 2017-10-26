@@ -125,7 +125,11 @@ export default class Modal extends Component {
           onTransitionEnd={this._transitionEnd}
           {...rest}
           >{children}</div>
-        <OverLay visible={visible} type={type} onClick={closeByOutside && onCancel} ignore={ignore} overlay={overlay} modal={this.refs.modal}></OverLay>
+        {
+          overlay && (
+            <OverLay visible={visible} type={type} onClick={closeByOutside && onCancel} ignore={ignore} modal={this.refs.modal}></OverLay>
+          )
+        }
       </Element>
     );
   }
