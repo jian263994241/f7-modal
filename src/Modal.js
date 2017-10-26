@@ -127,7 +127,7 @@ export default class Modal extends Component {
           >{children}</div>
         {
           overlay && (
-            <OverLay visible={visible} type={type} onClick={closeByOutside && onCancel} ignore={ignore} modal={this.refs.modal}></OverLay>
+            <OverLay visible={visible} type={type} onClick={closeByOutside && onCancel} modal={this.refs.modal}></OverLay>
           )
         }
       </Element>

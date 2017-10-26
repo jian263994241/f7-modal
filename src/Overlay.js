@@ -39,9 +39,7 @@ export default class OverLay extends Component {
   componentDidMount() {
     this.update();
   }
-
-
-
+  
   render() {
 
     const {
