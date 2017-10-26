@@ -63,21 +63,6 @@ const {ActionLabel, ActionButton, ActionGroup} = ActionsModal;
 </ActionsModal>
 ```
 
-## &lt;Popover/&gt;
-
-提示框
-
-```jsx
-<Popover style={{width: 200}} content={(
-  <ContentBlock>
-    <p>About Popover created dynamically.</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ac diam ac quam euismod porta vel a nunc. Quisque sodales scelerisque est, at porta justo cursus ac.</p>
-  </ContentBlock>
-  )}>
-  <Button>Popover 2</Button>
-</Popover>
-```
-
 ## &lt;Popup/&gt;
 
 弹窗
@@ -122,8 +107,7 @@ Modal.toast.sucess(text, [timer], [callbackOk])
 Modal.toast.fail(text, [timer], [callbackOk])
 Modal.toast.warning(text, [timer], [callbackOk])
 Modal.toast.offline(text, [timer], [callbackOk])
-//waiting
-Modal.toast.waiting(text, (done)=>{});
+
 
 
 ```
