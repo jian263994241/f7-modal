@@ -472,7 +472,7 @@ var Modal = (_temp2 = _class = function (_Component) {
           }, rest),
           children
         ),
-        overlay && _react2.default.createElement(_OverLay2.default, { visible: visible, type: type, onClick: closeByOutside && onCancel, ignore: ignore, modal: this.refs.modal })
+        overlay && _react2.default.createElement(_OverLay2.default, { visible: visible, type: type, onClick: closeByOutside && onCancel, modal: this.refs.modal })
       );
     }
   }]);
