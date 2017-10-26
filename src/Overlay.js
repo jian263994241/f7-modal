@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import $ from 'dom7'
 import styles from './styles'
 
 export default class OverLay extends Component {
@@ -23,13 +22,14 @@ export default class OverLay extends Component {
 
   update = ()=>{
     const {visible} = this.props;
-    const overLay = $(this.refs.overLay);
+    const overLay = this.refs.overLay
     if(visible){
+      overLay.style.display = 'block';
       setTimeout(()=>{
-        overLay.addClass(styles['modal-overlay-visible']);
-      },16)
+        overLay.classList.add(styles['modal-overlay-visible']);
+      },150)
     }else{
-      overLay.removeClass(styles['modal-overlay-visible']);
+      overLay.classList.remove(styles['modal-overlay-visible']);
     }
   };
 
@@ -54,11 +54,11 @@ export default class OverLay extends Component {
 
   componentDidMount() {
     this.update();
-    $(document).on('click', this.watchOutside);
+    document.addEventListener('click', this.watchOutside, false);
   }
 
   componentWillUnmount() {
-    $(document).off('click', this.watchOutside);
+    document.removeEventListener('click', this.watchOutside, false);
   }
 
   render() {
@@ -87,7 +87,7 @@ export default class OverLay extends Component {
 
     if(overlay){
       return (
-        <div className={cls} ref="overLay" onTouchMove={preventScrolling} {...rest}></div>
+        <div className={cls} ref="overLay" onTouchMove={preventScrolling} style={{display:'none'}} {...rest}></div>
       );
     }else{
       return null;

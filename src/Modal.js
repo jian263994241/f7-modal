@@ -43,24 +43,21 @@ export default class Modal extends Component {
     const modal = this.refs.modal;
     if(visible){
       modal.style.display = 'block';
-      this.fixTop();
       setTimeout(()=>{
-        this.setState({
-          css: styles['modal-in']
-        });
-      }, 16);
+        this.fixTop();
+        modal.classList.remove(styles['modal-out']);
+        modal.classList.add(styles['modal-in']);
+      }, 150);
     }else{
-      this.setState({
-        css: styles['modal-out']
-      });
+      modal.classList.add(styles['modal-out']);
+      modal.classList.remove(styles['modal-in']);
     }
   };
 
   fixTop = ()=>{
-    const {fixTop} = this.props;
+    if(!this.props.fixTop) return ;
     const modal = this.refs.modal;
     const topx = - Math.round(modal.offsetHeight / 2) - 8 ;
-    if(!fixTop) return ;
     modal.style.marginTop = topx + 'px';
   };
 
@@ -72,7 +69,6 @@ export default class Modal extends Component {
     const {visible, afterClose} = this.props;
     const modal = this.refs.modal;
     if(!visible){
-      this.setState({css:''});
       modal.style.display = 'none';
       afterClose && afterClose();
     }
@@ -80,7 +76,6 @@ export default class Modal extends Component {
 
   componentDidMount() {
     this.update();
-    this._transitionEnd();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -105,6 +100,7 @@ export default class Modal extends Component {
       fixTop,
       ignore,
       children,
+      style,
       ...rest
     } = this.props;
 
@@ -116,19 +112,18 @@ export default class Modal extends Component {
       [styles['popover']]: type === 'popover',
       [styles['modal-no-buttons']]: type==='toast',
       [styles['preloader-modal']]: type === 'preloader',
-      [styles['toast']]: type === 'toast',
-      [this.state.css]: true
+      [styles['toast']]: type === 'toast'
     }, className);
 
-    const Element = mounter? Mounter: 'div';
+    const Element = mounter ? Mounter: 'div';
 
     return (
       <Element className={containerCss} ref="wrapper">
         <div className={cls}
           ref="modal"
-          style={{display:'block'}}
-          {...rest}
+          style={{display:'none', ...style}}
           onTransitionEnd={this._transitionEnd}
+          {...rest}
           >{children}</div>
         <OverLay visible={visible} type={type} onClick={closeByOutside && onCancel} ignore={ignore} overlay={overlay} modal={this.refs.modal}></OverLay>
       </Element>

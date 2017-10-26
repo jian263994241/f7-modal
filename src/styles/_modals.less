@@ -75,10 +75,19 @@
     color:#000;
     display: none;
 
+    &.middle {
+      
+      .transform(translate3d(0,-50%,0) scale(1.185));
+    }
+
     &.modal-in {
         opacity: 1;
         .transition(@modalDuration);
         .transform(translate3d(0,0,0) scale(1));
+
+        &.middle {
+          .transform(translate3d(0,-50%,0) scale(1));
+        }
     }
     &.modal-out {
         opacity: 0;

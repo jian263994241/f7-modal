@@ -1,65 +1,10 @@
-import React, {Component} from 'react'
-import {findDOMNode, render} from 'react-dom'
+import React, {Component, cloneElement} from 'react'
+import {findDOMNode, render, unmountComponentAtNode} from 'react-dom'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Mounter from 'rc-mounter'
 import Modal from './Modal'
 import styles from './styles'
-
-class Modal2 extends Component {
-
-  static ButtonGroup = ({children, ...rest})=>(
-    <div className={styles['modal-buttons']} {...rest}>{children}</div>
-  );
-
-  static Button = ({children, bold, ...rest})=>{
-    const btnCss = classnames({
-      [styles['modal-button']]: true,
-      [styles['modal-button-bold']]: bold
-    });
-    return (
-      <span className={btnCss} {...rest}>{children}</span>
-    );
-  }
-
-  afterClose = ()=>{
-    const mounter = this.refs.modal.getMounter();
-    mounter.destroy();
-    modalStackClearQueue();
-  }
-
-  render() {
-
-    const {
-      title,
-      text,
-      textAfter,
-      children,
-      ...rest
-    } = this.props;
-
-    return (
-      <Modal
-        ref="modal"
-        visible={true}
-        closeByOutside={false}
-        fixTop
-        mounter
-        afterClose={this.afterClose}
-        {...rest}
-        >
-        <div className={styles['modal-inner']}>
-          {title && <div className={styles['modal-title']}>{title}</div>}
-          {text && <div className={styles['modal-text']}>{text}</div>}
-          {textAfter}
-        </div>
-        {children}
-      </Modal>
-    );
-  }
-}
-
-
 
 let modalLock = false;
 
@@ -79,79 +24,136 @@ const addQueue = function(fn){
   }
 };
 
+function renderModal(config){
 
-export function alert (parmas) {
-
-  if( addQueue( alert.bind(this, parmas) ) ) return true;
-
-  const {title, text, onOk, okText='确定'} = parmas;
-
-  const clickOk = ()=>{
-    mounted.updateProps({visible: false}, onOk);
-  }
+  if( addQueue( renderModal.bind(this, config) ) ) return true;
 
   modalLock = true;
 
-  const mounted = Mounter.mount(
-    <Modal2 title={title} text={text}>
-      <Modal2.ButtonGroup>
-        <Modal2.Button onClick={clickOk}>{okText}</Modal2.Button>
-      </Modal2.ButtonGroup>
-    </Modal2>
-  );
+  const props = {
+    type: 'modal',
+    ...config,
+  };
+
+  let div = document.createElement('div');
+  document.body.appendChild(div);
+
+  let timeoutFn = null, Dialog = null;
+
+  function close(...args) {
+
+    render(
+      cloneElement(Dialog, {
+        visible: false,
+        afterClose(){
+          const unmountResult = unmountComponentAtNode(div);
+          if (unmountResult && div.parentNode) {
+            div.parentNode.removeChild(div);
+          }
+          if (props.onCancel) {
+            props.onCancel(...args);
+          }
+          clearTimeout(timeoutFn);
+          modalStackClearQueue();
+        }}
+    ), div);
+
+
+  }
+
+  const maskClosable = props.maskClosable === undefined ? false : props.maskClosable;
+
+  let ActionButton = ({children, bold, action, closeModal})=>{
+    const btnCss = classnames({
+      [styles['modal-button']]: true,
+      [styles['modal-button-bold']]: bold
+    });
+    const onClick = ()=>{
+      action && action();
+      closeModal && closeModal();
+    }
+    return (
+      <span className={btnCss} onClick={onClick}>{children}</span>
+    );
+  };
+
+  Dialog = (
+    <Modal
+      visible
+      fixTop
+      closeByOutside={maskClosable}
+      onCancel = {close}
+      mounter={false}
+      type={props.type}
+      >
+      <div className={styles['modal-inner']}>
+        {props.title && <div className={styles['modal-title']}>{props.title}</div>}
+        {props.text && <div className={styles['modal-text']}>{props.text}</div>}
+        {props.textAfter}
+      </div>
+      {
+        props.buttons && (
+          <div className={styles['modal-buttons']}>
+            {
+              props.buttons.map((item, index)=>(
+                <ActionButton action={item.click} closeModal={close} key={index}>{item.text}</ActionButton>
+              ))
+            }
+          </div>
+        )
+      }
+    </Modal>
+  )
+
+  render(Dialog, div);
+
+  if(props.type === 'toast' && props.timeout > 0){
+    timeoutFn = setTimeout(close, props.timeout)
+  }
+
+  return {
+    destroy: close,
+  };
+
+}
+
+
+export function alert (parmas) {
+
+  const {title, text, onOk, okText='确定'} = parmas;
+
+  renderModal({
+    title, text,
+    buttons: [
+      { click: onOk, text: okText }
+    ]
+  })
 };
 
 
 export function confirm (parmas) {
 
-
-  if( addQueue( confirm.bind(this, parmas) ) ) return true;
-
   const {title, text, onOk, onCancel, okText='确定', cancelText='取消'} = parmas;
 
-  const clickOk = ()=>{
-    mounted.updateProps({visible: false}, onOk);
-  }
-
-  const clickCancel = ()=>{
-    mounted.updateProps({visible: false}, onCancel);
-  }
-
-  modalLock = true;
-
-  const mounted = Mounter.mount(
-    <Modal2 title={title} text={text}>
-      <Modal2.ButtonGroup>
-        <Modal2.Button onClick={clickOk} onClick={clickCancel}>{cancelText}</Modal2.Button>
-        <Modal2.Button onClick={clickOk} bold>{okText}</Modal2.Button>
-      </Modal2.ButtonGroup>
-    </Modal2>
-  );
-
+  renderModal({
+    title, text,
+    buttons: [
+      { click: onCancel, text: cancelText },
+      { click: onOk, text: okText },
+    ]
+  })
 };
 
 export function prompt(parmas) {
 
-
-  if( addQueue( prompt.bind(this, arguments) ) ) return true;
-
   const {title, text, onOk, onCancel, okText='确定', cancelText='取消'} = parmas;
 
-  let value = null;
+  let target = {};
 
   const inputField = (e)=>{
-    value = e.target.value;
+    target.value = e.target.value;
+    target.input = e.target;
   }
-
-  const clickOk = ()=>{
-    mounted.updateProps({visible: false}, onOk.bind(this, value));
-  }
-
-  const clickCancel = ()=>{
-    mounted.updateProps({visible: false}, onCancel);
-  }
-
-  modalLock = true;
 
   const input = (
     <div className={styles['input-field']}>
@@ -159,21 +161,20 @@ export function prompt(parmas) {
     </div>
   );
 
-  const mounted = Mounter.mount(
-    <Modal2 title={title} text={text} textAfter={input}>
-      <Modal2.ButtonGroup>
-        <Modal2.Button onClick={clickOk} onClick={clickCancel}>{cancelText}</Modal2.Button>
-        <Modal2.Button onClick={clickOk} bold>{okText}</Modal2.Button>
-      </Modal2.ButtonGroup>
-    </Modal2>
-  );
+  renderModal({
+    title, text,
+    textAfter: input,
+    buttons: [
+      { click: onCancel, text: cancelText },
+      { click: onOk.bind(this, target), text: okText },
+    ]
+  })
+
 }
-
-
 
 export function toast (text, timer, callbackOk){
 
-  if( addQueue( toast.bind(this, text, timer, callbackOk) ) ) return true;
+  // if( addQueue( toast.bind(this, text, timer, callbackOk) ) ) return true;
 
   if(Object.prototype.toString.call(text) === '[object Object]'){
     var {title, text, timer, callbackOk, closeByOutside} = arguments[0];
@@ -189,31 +190,13 @@ export function toast (text, timer, callbackOk){
 
   timer = timer != undefined ? timer: 2000;
 
-  var timeoutfn = null;
-
-  const onCancel = ()=>{
-    clearTimeout(timeoutfn);
-    mounted.updateProps({visible: false}, callbackOk);
-  }
-
-  if(timer === 0){
-    closeByOutside = false;
-    callbackOk && callbackOk(onCancel);
-  }else{
-    timeoutfn = setTimeout(onCancel, timer);
-  }
-
-  modalLock = true;
-
-  const mounted = Mounter.mount(
-    <Modal2
-      type="toast"
-      closeByOutside={closeByOutside}
-      onCancel={onCancel}
-      text={text}
-      title={title}
-    />
-  );
+  renderModal({
+    title, text,
+    type: 'toast',
+    maskClosable: !!timer,
+    onCancel: callbackOk,
+    timeout: timer,
+  })
 
 }
 
