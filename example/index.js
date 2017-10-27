@@ -4,7 +4,7 @@ import {Modal, Popup} from '../src';
 
 Modal.toast('toast0', ()=>console.log('toast'))
 Modal.toast('toast1', ()=>console.log('toast'))
-Modal.toast.sucess('toast12', ()=>console.log('toast'))
+Modal.toast.success('toast12', ()=>console.log('toast'))
 
 class Example extends Component {
 
