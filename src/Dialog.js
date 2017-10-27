@@ -200,7 +200,7 @@ export function toast (text, timer, callbackOk){
 
 }
 
-toast.sucess = function (text, timer, callbackOk){
+toast.success = function (text, timer, callbackOk){
   if (typeof timer === 'function') {
     callbackOk = arguments[1];
     timer = 2000;
