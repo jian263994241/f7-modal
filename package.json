@@ -1,6 +1,6 @@
 {
   "name": "f7-modal",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "f7 modal",
   "main": "dist/f7-modal.js",
   "scripts": {
@@ -28,6 +28,6 @@
     "babel-runtime": "^6.23.0",
     "classnames": "^2.2.5",
     "prop-types": "^15.5.10",
-    "rc-mounter": "^1.1.1"
+    "rc-mounter": "^1.1.5"
   }
 }
