@@ -3,7 +3,8 @@
 浮层基础组件,  如有个性化浮层需求可以再Modal基础上扩展
 
 ```jsx
-import {Modal, Popup, PickerModal, Popover} from 'f7-modal'
+import React from 'react';
+import {Modal, Popup, PickerModal} from 'f7-modal';
 ```
 
 popup 实现

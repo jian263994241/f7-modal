@@ -11,7 +11,7 @@ module.exports = {
 
   module: {
     rules: [
-      webpack.preset.cssRule({modules: true, hmr: false}),
+      webpack.preset.cssRule({modules: true, sourceMap: false, hmr: false}),
       webpack.preset.babelRule()
     ]
   },

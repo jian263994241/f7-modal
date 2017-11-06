@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import ReactDOM from 'react-dom';
-import {Modal, Popup} from '../src';
+import {Modal, Popup, PickerModal} from '../src';
 
 Modal.toast('toast0', ()=>console.log('toast'))
 Modal.toast('toast1', ()=>console.log('toast'))
@@ -10,7 +10,8 @@ class Example extends Component {
 
   state = {
     modal: false,
-    popup: false
+    popup: false,
+    picker: false
   }
 
   render() {
@@ -24,7 +25,7 @@ class Example extends Component {
         </div>
         <div>
           <button onClick={()=>this.setState({popup:true})}>Popup</button>
-          <Popup  visible={this.state.popup}>
+          <Popup visible={this.state.popup}>
             <button onClick={()=>this.setState({popup:false})}>Close Popup</button>
           </Popup>
         </div>
@@ -55,6 +56,14 @@ class Example extends Component {
         <div>
           <button onClick={()=>Modal.toast('toast', ()=>console.log('toast'))
             }>toast</button>
+        </div>
+
+        <div>
+            <button onClick={()=>this.setState({picker:true})}>Picker</button>
+          <PickerModal visible={this.state.picker} onCancel={()=>this.setState({picker:false})}>
+            <button onClick={()=>this.setState({picker:false})}>Close Picker</button>
+          </PickerModal>
+
         </div>
       </div>
 
